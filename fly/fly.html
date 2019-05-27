@@ -21,43 +21,51 @@
         <button onclick="aircraftView()">跟随视角</button>
         <button onclick="flyBack()">向后飞行</button>
         <button onclick="flyForward()">向前飞行</button>
-        <button onclick="stopFly()">停止飞行</button>
+        <button onclick="customFly()">自定义路线</button>
+        <button onclick="stopFly(true)">停止飞行</button>
     </div>
     <script>
         var mViewer = new Cesium.Viewer("cesium_container");
         var mFlySpeed = 10;
+        var mFlyPath = [];
         /**
          * 初始化飞行数据
          **/
         function initFly()
         {
             pauseFly();
-            //设置初始位置
-            mViewer.camera.flyTo({
-                destination :  Cesium.Cartesian3.fromDegrees(116.538799 , 39.9948 , 100000),
-                orientation: {
-                    heading : Cesium.Math.toRadians(20.0), // 方向
-                    pitch : Cesium.Math.toRadians(-90.0),// 倾斜角度
-                    roll : 0
-                },
-                pitchAdjustHeight: -90, // 如果摄像机飞越高于该值，则调整俯仰俯仰的俯仰角度，并将地球保持在视口中。
-                maximumHeight:5000, // 相机最大飞行高度
-                flyOverLongitude: 100, // 如果到达目的地有2种方式，设置具体值后会强制选择方向飞过这个经度
-            });
-                // 数据
-            let data = [];
-            data[0] = [
+
+            // 数据
+            if(!mFlyPath || mFlyPath.length == 0)
+            {
+                mFlyPath[0] = [
                 {longitude:116.538799, dimension:39.9948, height:0, time:0},
-                {longitude:116.130034, dimension:38.291387, height:5000, time:40},
-                {longitude:116.415192, dimension:34.841955, height:5000, time:100},
-                {longitude:117.261468, dimension:31.831171, height:5000, time:280}, 
-                {longitude:115.881671, dimension:28.70164, height:5000, time:360},
-                {longitude:116.120835, dimension:24.308311, height:5000, time:480},
+                {longitude:116.130034, dimension:38.291387, height:5000, time:120},
+                {longitude:116.415192, dimension:34.841955, height:5000, time:240},
+                {longitude:117.261468, dimension:31.831171, height:5000, time:360}, 
+                {longitude:115.881671, dimension:28.70164, height:5000, time:480},
+                {longitude:116.120835, dimension:24.308311, height:5000, time:600},
                 {longitude:113.269254, dimension:23.13956, height:0, time:720}];
+
+                //设置初始位置
+                mViewer.camera.flyTo({
+                    destination :  Cesium.Cartesian3.fromDegrees(mFlyPath[0][0].longitude , mFlyPath[0][0].dimension , 100000),
+                    orientation: {
+                        heading : Cesium.Math.toRadians(20.0), // 方向
+                        pitch : Cesium.Math.toRadians(-90.0),// 倾斜角度
+                        roll : 0
+                    },
+                    pitchAdjustHeight: -90, // 如果摄像机飞越高于该值，则调整俯仰俯仰的俯仰角度，并将地球保持在视口中。
+                    maximumHeight:5000, // 相机最大飞行高度
+                    flyOverLongitude: 100, // 如果到达目的地有2种方式，设置具体值后会强制选择方向飞过这个经度
+                });
+            }
+
+
             // 起始时间
             let start = new Cesium.JulianDate();
                 // 结束时间
-            let stop = Cesium.JulianDate.addSeconds(start, 720,new Cesium.JulianDate());
+            let stop = Cesium.JulianDate.addSeconds(start, (mFlyPath[0].length-1)*120,new Cesium.JulianDate());
                 // 设置始时钟始时间
             mViewer.clock.startTime = start.clone();
                 // 设置时钟当前时间
@@ -68,6 +76,7 @@
             mViewer.clock.multiplier = mFlySpeed;
                 // 循环执行
             mViewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+            let data = mFlyPath;
             for(let j=0; j<data.length; j++)
             {
                 let property = new Cesium.SampledPositionProperty();
@@ -168,14 +177,109 @@
             mViewer.clock.multiplier = mFlySpeed;
         }
 
-        function stopFly()
+        /**
+         * 自定义路线飞行
+         **/ 
+        function customFly()
+        {
+            window.PolyLinePrimitive = (function(){
+                function _(positions)
+                {
+                    this.options = {
+                        polyline : {
+                            show : true,
+                            positions : [],
+                            material : Cesium.Color.CORNFLOWERBLUE,
+                            width : 5
+                        }
+                    };
+                    this.positions = positions;
+                    this._init();
+                }
+                _.prototype._init = function(){
+                    var _self = this;
+                    var _update = function(){
+                        return _self.positions;
+                    };
+                    //实时更新polyline.positions
+                    this.options.polyline.positions = new Cesium.CallbackProperty(_update,false);
+                    mViewer.entities.add(this.options);
+                };
+                return _;
+            })();
+
+            var handler = new Cesium.ScreenSpaceEventHandler(mViewer.canvas);
+            var positions = [];
+            var poly = undefined;
+            var lnglatPositions=[];
+            handler.setInputAction(function(movement)
+            {
+                //屏幕坐标转成经纬度坐标
+                var cartesian = mViewer.scene.camera.pickEllipsoid(movement.position,mViewer.scene.globe.ellipsoid);
+                if(positions.length == 0)
+                {
+                    positions.push(cartesian.clone());
+                }
+                positions.push(cartesian);
+                var ray = mViewer.camera.getPickRay(movement.position);;
+                cartesian= mViewer.scene.globe.pick(ray, mViewer.scene);
+                if (!cartesian)
+                    return;
+                let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                let lng = Cesium.Math.toDegrees(cartographic.longitude);//经度值
+                let lat = Cesium.Math.toDegrees(cartographic.latitude);//纬度值
+                lnglatPositions.push({longitude:lng, dimension:lat, height:5000, time:lnglatPositions.length*120});
+            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            //鼠标移动事件
+            handler.setInputAction(function(movement){
+                var cartesian = mViewer.camera.pickEllipsoid(movement.endPosition,mViewer.scene.globe.ellipsoid);
+                if(positions.length >= 2)
+                {
+                    if (!Cesium.defined(poly)) {
+                        poly = new PolyLinePrimitive(positions);
+                    }else{
+                        positions.pop();
+                        cartesian.y += (1 + Math.random());
+                        positions.push(cartesian);
+                    }
+                }
+            },Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            
+            //双击完成绘制飞行路线操作
+            handler.setInputAction(function(movement)
+            {
+                handler.destroy();
+                if(positions.length>0)
+                {
+                    positions[0].height = 0;
+                    positions[positions.length-1].height =0;
+                    stopFly(false);
+                    if(lnglatPositions.length>2)
+                    {
+                        lnglatPositions.splice(lnglatPositions.length-1,1);
+                        mFlyPath[0] = lnglatPositions;
+                        initFly();
+                        startFly();
+                    }
+                    
+                }
+            },Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+        }
+
+        /**
+         * 停止飞行
+         **/
+        function stopFly(clearData)
         {
             mViewer.trackedEntity = undefined;
             var start = Cesium.JulianDate.fromDate(new Date());
             mViewer.clock.startTime = start.clone();
             var stop = Cesium.JulianDate.addSeconds(start, 300000000, new Cesium.JulianDate());
             mViewer.clock.stopTime = stop.clone();
-            mViewer.entities.remove(mViewer.entities.getById("fly"));
+            mViewer.entities.removeAll();
+            if(clearData)
+                mFlyPath = [];
         }
     </script>
 </body>
