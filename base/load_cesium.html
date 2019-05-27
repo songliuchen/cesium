@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>三维飞行</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../assets/cesium/Widgets/widgets.css">
-    <script src="../assets/cesium/Cesium.js"></script>
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+    <script src="../assets/js/Sandcastle-header.js"></script>
 </head>
 <body>
     <div id = "cesium_container" style="width:100%;height:100%;">
     </div>
     <script>
+        //cesium_container 对应容器div 的ID
         var viewer = new Cesium.Viewer('cesium_container');
     </script>
 </body>

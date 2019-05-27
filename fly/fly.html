@@ -5,14 +5,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>三维飞行</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../assets/cesium/Widgets/widgets.css">
-    <script src="../assets/cesium/Cesium.js"></script>
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+    <script src="../assets/js/Sandcastle-header.js"></script>
 </head>
 <body>
     <div id = "cesium_container" style="width:100%;height:100%;">
     </div>
+    <div id="fly_operator_container" style="width:300px;height:300px;position:absolute;z-index:9;top:10px;left:10px;">
+        <button onclick="initFly()">初始化</button>
+        <button onclick="startFly()">开始飞行</button>
+        <button onclick="pauseFly()">停止飞行</button>
+        <button onclick="topView()">头顶视角</button>
+        <button onclick="sideView()">侧面视角</button>
+        <button onclick="aircraftView()">跟随视角</button>
+    </div>
     <script>
-        var viewer = new Cesium.Viewer('cesium_container');
+        var viewer = new Cesium.Viewer("cesium_container");
+        /**
+         * 初始化飞行数据
+         **/
+        function initFly()
+        {
+            //设置初始位置
+            viewer.camera.flyTo({
+                destination :  Cesium.Cartesian3.fromDegrees(116.538799 , 39.9948 , 100000),
+                orientation: {
+                    heading : Cesium.Math.toRadians(20.0), // 方向
+                    pitch : Cesium.Math.toRadians(-90.0),// 倾斜角度
+                    roll : 0
+                },
+                pitchAdjustHeight: -90, // 如果摄像机飞越高于该值，则调整俯仰俯仰的俯仰角度，并将地球保持在视口中。
+                maximumHeight:5000, // 相机最大飞行高度
+                flyOverLongitude: 100, // 如果到达目的地有2种方式，设置具体值后会强制选择方向飞过这个经度
+            });
+                // 数据
+            let data = [];
+            data[0] = [
+                {longitude:116.538799, dimension:39.9948, height:0, time:0},
+                {longitude:116.130034, dimension:38.291387, height:70000, time:40},
+                {longitude:116.415192, dimension:34.841955, height:70000, time:100},
+                {longitude:117.261468, dimension:31.831171, height:70000, time:280}, 
+                {longitude:115.881671, dimension:28.70164, height:70000, time:360},
+                {longitude:116.120835, dimension:24.308311, height:70000, time:480},
+                {longitude:113.269254, dimension:23.13956, height:0, time:720}];
+            // 起始时间
+            let start = new Cesium.JulianDate();
+                // 结束时间
+            let stop = Cesium.JulianDate.addSeconds(start, 720,new Cesium.JulianDate());
+                // 设置始时钟始时间
+            viewer.clock.startTime = start.clone();
+                // 设置时钟当前时间
+            viewer.clock.currentTime = start.clone();
+                // 设置始终停止时间
+            viewer.clock.stopTime  = stop.clone();
+            // 时间速率，数字越大时间过的越快
+            viewer.clock.multiplier = 10;
+                // 循环执行
+            viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+            for(let j=0; j<data.length; j++)
+            {
+                let property = new Cesium.SampledPositionProperty();
+                for(let i=0; i<data[j].length; i++){
+                    let time = Cesium.JulianDate.addSeconds(start, data[j][i].time, new Cesium.JulianDate());
+                    let position = Cesium.Cartesian3.fromDegrees(data[j][i].longitude, data[j][i].dimension, data[j][i].height);
+                    // 添加位置，和时间对应
+                    property.addSample(time, position);
+                }
+                // 添加模型
+                viewer.entities.add({
+                    id: "fly",
+                    // 和时间轴关联
+                    availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+                        start : start,
+                        stop : stop
+                    })]),
+                    position: property,
+                    //基于位置移动自动计算方向.
+                    orientation: new Cesium.VelocityOrientationProperty(property),
+                    // 模型数据
+                    model: {
+                        uri: '../assets/cesium/air_plan.gltf',
+                        scale: 6,
+                        minimumPixelSize: 64
+                    },
+                    //路径
+                    path : {
+                        resolution : 1,
+                        //设置航线样式，线条颜色，内发光粗细，航线宽度等
+                        material : new Cesium.PolylineGlowMaterialProperty({
+                            glowPower : 0.1,
+                            color : Cesium.Color.YELLOW
+                        }),
+                        width : 30
+                    }
+                });
+            }
+        }
+
+        function startFly()
+        {
+            viewer.clock.shouldAnimate = true;
+        }
+
+        function pauseFly()
+        {
+            viewer.clock.shouldAnimate = false;
+        }
+
+        function topView()
+        {
+            viewer.trackedEntity = undefined;
+            viewer.zoomTo(viewer.entities, new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90)));
+        }
+
+        function sideView()
+        {
+            viewer.trackedEntity = undefined;
+            viewer.zoomTo(viewer.entities, new Cesium.HeadingPitchRange(Cesium.Math.toRadians(-90), Cesium.Math.toRadians(-15), 7500));
+        }
+
+        function aircraftView()
+        {
+            viewer.trackedEntity = viewer.entities.getById("fly");
+        }
     </script>
 </body>
 </html>
