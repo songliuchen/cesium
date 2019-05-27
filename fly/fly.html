@@ -31,6 +31,7 @@
          **/
         function initFly()
         {
+            pauseFly();
             //设置初始位置
             mViewer.camera.flyTo({
                 destination :  Cesium.Cartesian3.fromDegrees(116.538799 , 39.9948 , 100000),
@@ -47,11 +48,11 @@
             let data = [];
             data[0] = [
                 {longitude:116.538799, dimension:39.9948, height:0, time:0},
-                {longitude:116.130034, dimension:38.291387, height:70000, time:40},
-                {longitude:116.415192, dimension:34.841955, height:70000, time:100},
-                {longitude:117.261468, dimension:31.831171, height:70000, time:280}, 
-                {longitude:115.881671, dimension:28.70164, height:70000, time:360},
-                {longitude:116.120835, dimension:24.308311, height:70000, time:480},
+                {longitude:116.130034, dimension:38.291387, height:5000, time:40},
+                {longitude:116.415192, dimension:34.841955, height:5000, time:100},
+                {longitude:117.261468, dimension:31.831171, height:5000, time:280}, 
+                {longitude:115.881671, dimension:28.70164, height:5000, time:360},
+                {longitude:116.120835, dimension:24.308311, height:5000, time:480},
                 {longitude:113.269254, dimension:23.13956, height:0, time:720}];
             // 起始时间
             let start = new Cesium.JulianDate();
@@ -171,11 +172,10 @@
         {
             mViewer.trackedEntity = undefined;
             var start = Cesium.JulianDate.fromDate(new Date());
-            viewer.clock.startTime = start.clone();
+            mViewer.clock.startTime = start.clone();
             var stop = Cesium.JulianDate.addSeconds(start, 300000000, new Cesium.JulianDate());
-            viewer.clock.stopTime = stop.clone();
-            layer.closeAll();
-            viewer.entities.remove(entityee);
+            mViewer.clock.stopTime = stop.clone();
+            mViewer.entities.remove(mViewer.entities.getById("fly"));
         }
     </script>
 </body>
