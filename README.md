@@ -3,7 +3,7 @@
 [示例集合](https://songliuchen.github.io/cesium)  
 [综合展示](https://songliuchen.github.io/cesium/main.html)  
 [加载地图](https://songliuchen.github.io/cesium/base/load_cesium.html)  
-[动态控制各种控件是否显示](https://songliuchen.github.io/cesium/base/load_cesium2.html)  
+[动态控制各种控件是否显示](https://songliuchen.github.io/cesium/base/load_cesium2.html)
 - 控制飞行控件  
 - 刻度线  
 - Cesium Logo 和水印  
