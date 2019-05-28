@@ -22,6 +22,7 @@
         <input type="checkbox" id="showHelpButton" onchange="showHelpButton()" checked /><span style="margin-right:10px;color:white">显示帮助按钮</span> <br>
         <input type="checkbox" id="showRightTopMenu" onchange="showRightTopMenu()" checked /><span style="margin-right:10px;color:white">显示右上角菜单</span> <br>
         <input type="checkbox" id="showFullScreen" onchange="showFullScreen()" checked /><span style="margin-right:10px;color:white">显示全屏</span> <br>
+        <!-- <input type="checkbox" id="showShadow" onchange="showShadow()" checked /><span style="margin-right:10px;color:white">是否显示阴影</span> <br> -->
     </div>
     <script>
         var mViewer = new Cesium.Viewer('cesium_container')
@@ -105,7 +106,7 @@
             let select = document.getElementById("showLayerSelect");
             mViewer.baseLayerPicker.container.style.visibility = select.checked?"visible":"hidden";
         }
-
+        
         /**
          * 显示全屏 
          **/
@@ -113,6 +114,15 @@
         {
             let select = document.getElementById("showFullScreen");
             mViewer.fullscreenButton.container.style.visibility = select.checked?"visible":"hidden";
+        }
+
+        /**
+         * 是否显示阴影
+         **/
+         function showShadow()
+        {
+            let select = document.getElementById("showShadow");
+            mViewer.shadows = select.checked?true:false;
         }
     </script>
 </body>
