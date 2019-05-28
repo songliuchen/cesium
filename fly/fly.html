@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
-    <script src="../assets/js/Sandcastle-header.js"></script>
 </head>
 <body>
     <div id = "cesium_container" style="width:100%;height:100%;">
@@ -64,17 +63,17 @@
 
             // 起始时间
             let start = new Cesium.JulianDate();
-                // 结束时间
+            // 结束时间
             let stop = Cesium.JulianDate.addSeconds(start, (mFlyPath[0].length-1)*120,new Cesium.JulianDate());
-                // 设置始时钟始时间
+            // 设置始时钟始时间
             mViewer.clock.startTime = start.clone();
-                // 设置时钟当前时间
+            // 设置时钟当前时间
             mViewer.clock.currentTime = start.clone();
-                // 设置始终停止时间
+            // 设置始终停止时间
             mViewer.clock.stopTime  = stop.clone();
             // 时间速率，数字越大时间过的越快
             mViewer.clock.multiplier = mFlySpeed;
-                // 循环执行
+            // 循环执行
             mViewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
             let data = mFlyPath;
             for(let j=0; j<data.length; j++)
@@ -97,7 +96,7 @@
                     position: property,
                     //基于位置移动自动计算方向.
                     orientation: new Cesium.VelocityOrientationProperty(property),
-                    // 模型数据
+                    // 模型数据,跨域，模型文件必须放本地
                     model: {
                         uri: '../assets/cesium/air_plan.gltf',
                         scale: 6,
@@ -254,6 +253,7 @@
                 {
                     positions[0].height = 0;
                     positions[positions.length-1].height =0;
+                    //先停止之前的飞行，初始化飞行数据，开始飞行
                     stopFly(false);
                     if(lnglatPositions.length>2)
                     {
