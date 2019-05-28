@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>三维模型</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    <div style="position:absolute;z-index:9;top:20px;left:20px;">
+        <select id = "model_list" onchange="modelSelectChanged()">
+
+        </select>
+    </div>
+    </div>
+    <script>
+        //cesium_container 对应容器div 的ID
+        var mViewer = new Cesium.Viewer('cesium_container',{shouldAnimate:true});
+        //默认加载飞机模型
+        createModel('../assets/cesium/air_plan.gltf', 5000.0);
+        //初始话模型类型
+        var modelSelectList = document.getElementById("model_list");
+        modelSelectList.options[modelSelectList.options.length]=new Option("飞机",1);
+        modelSelectList.options[modelSelectList.options.length]=new Option("汽车",2);
+        modelSelectList.options[modelSelectList.options.length]=new Option("热气球",3);
+        modelSelectList.options[modelSelectList.options.length]=new Option("牛奶车",4);
+        modelSelectList.options[modelSelectList.options.length]=new Option("机器人",5);
+        modelSelectList.options[modelSelectList.options.length]=new Option("牛奶车2",6);
+
+        /**
+         * 监听模型切换事件，重新加载模型
+         **/
+        function modelSelectChanged()
+        {
+            var modelSelectList = document.getElementById("model_list");
+            switch(Number(modelSelectList.value))
+            {
+                case 1:
+                    createModel('../assets/cesium/air_plan.gltf', 5000.0);
+                    break;
+                case 2:
+                    createModel('../assets/cesium/GroundVehicle.glb', 0);
+                    break;
+                case 3:
+                    createModel('../assets/cesium/CesiumBalloon.glb', 1000.0);
+                    break;
+                case 4:
+                    createModel('../assets/cesium/CesiumMilkTruck-kmc.glb', 0);
+                    break;
+                case 5:
+                    createModel('../assets/cesium/Cesium_Man.glb', 0);
+                    break;
+                case 6:
+                    createModel('../assets/cesium/CesiumMilkTruck.gltf', 0);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /**
+         * 创建模型
+         **/
+        function createModel(url, height)
+        {
+            mViewer.entities.removeAll();
+            var position = Cesium.Cartesian3.fromDegrees(116.0744619, 39.0503706, height);
+            var heading = Cesium.Math.toRadians(135);
+            var pitch = 0;
+            var roll = 0;
+            var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+            var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+            var entity = mViewer.entities.add({
+                name : url,
+                position : position,
+                orientation : orientation,
+                model : {
+                    uri : url,
+                    minimumPixelSize : 128,
+                    maximumScale : 20000
+                }
+            });
+            mViewer.trackedEntity = entity;
+        }
+    </script>
+</body>
+</html>

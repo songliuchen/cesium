@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>去除所有控件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <script>
+        //cesium_container 对应容器div 的ID
+        var mViewer = new Cesium.Viewer('cesium_container',{
+            animation: false,        //是否创建动画小器件，左下角仪表
+            timeline: false,         //是否显示时间线控件
+            geocoder: false,         //是否显示地名查找控件
+            baseLayerPicker: false,  //是否显示图层选择控件
+            shadows: false,// 阴影是否被太阳投射
+            shouldAnimate:false,
+            fullscreenButton:false
+        });
+        mViewer.cesiumWidget.creditContainer.style.display = "none";
+        mViewer._toolbar.style.visibility="hidden"
+    </script>
+</body>
+</html>
