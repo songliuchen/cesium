@@ -3,127 +3,27 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>三维显示配置</title>
+    <title>去除所有控件</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
 </head>
-<body>
-    <div id = "cesium_container" style="width:100%;height:100%;">
-    </div>
-    <div id="config_operator_container" style="position:absolute;z-index:9;top:10px;left:10px;">
-        <input type="checkbox" id="showClock" onchange="showClock()" checked /><span style="margin-right:10px;color:white">显示飞行面板</span> <br>
-        <input type="checkbox" id="showTimeLine" onchange="showTimeLine()" checked /><span style="margin-right:10px;color:white">显示刻度线</span> <br>
-        <input type="checkbox" id="showLogo" onchange="showLogo()" checked /><span style="margin-right:10px;color:white">显示logo及水印</span> <br>
-        <input type="checkbox" id="showLocationSearch" onchange="showLocationSearch()" checked /><span style="margin-right:10px;color:white">显示位置搜索</span> <br>
-        <input type="checkbox" id="showGoHome" onchange="showGoHome()" checked /><span style="margin-right:10px;color:white">显示回主页</span> <br>
-        <input type="checkbox" id="showSceneModePicker" onchange="showSceneModePicker()" checked /><span style="margin-right:10px;color:white">显示三维模型切换</span> <br>
-        <input type="checkbox" id="showBaseLayerPicker" onchange="showBaseLayerPicker()" checked /><span style="margin-right:10px;color:white">显示基础图层切换</span> <br>
-        <input type="checkbox" id="showHelpButton" onchange="showHelpButton()" checked /><span style="margin-right:10px;color:white">显示帮助按钮</span> <br>
-        <input type="checkbox" id="showRightTopMenu" onchange="showRightTopMenu()" checked /><span style="margin-right:10px;color:white">显示右上角菜单</span> <br>
-        <input type="checkbox" id="showFullScreen" onchange="showFullScreen()" checked /><span style="margin-right:10px;color:white">显示全屏</span> <br>
-        <!-- <input type="checkbox" id="showShadow" onchange="showShadow()" checked /><span style="margin-right:10px;color:white">是否显示阴影</span> <br> -->
+<body style="margin: 0px">
+    <div id = "cesium_container" style="width:100%;height:100%;margin: 0px">
     </div>
     <script>
-        var mViewer = new Cesium.Viewer('cesium_container')
-        /**
-         * 显示clock
-         **/
-        function showClock()
-        {
-            let select = document.getElementById("showClock");
-            mViewer.animation.container.style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 显示刻度线
-         **/
-        function showTimeLine()
-        {
-            let select = document.getElementById("showTimeLine");
-            mViewer.timeline.container.style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 显示logo及谁赢
-         **/
-        function showLogo()
-        {
-            let select = document.getElementById("showLogo");
-            mViewer.cesiumWidget.creditContainer.style.display = select.checked?"block":"none";
-        }
-
-        /**
-         * 显示位置搜索
-         **/
-         function showLocationSearch()
-        {
-            let select = document.getElementById("showLocationSearch");
-            mViewer.geocoder.container.style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 显示回主页
-         **/
-         function showGoHome()
-        {
-            let select = document.getElementById("showGoHome");
-            mViewer.homeButton._element.style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 显示三维模型切换
-         **/
-         function showSceneModePicker()
-        {
-            let select = document.getElementById("showSceneModePicker");
-            document.getElementsByClassName("cesium-sceneModePicker-button3D")[0].style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 显示基础图层切换 
-         **/
-         function showBaseLayerPicker()
-        {
-            let select = document.getElementById("showBaseLayerPicker");
-            mViewer.baseLayerPicker._element.style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 显示帮助 
-         **/
-         function showHelpButton()
-        {
-            let select = document.getElementById("showHelpButton");
-            document.getElementsByClassName("cesium-navigationHelpButton-wrapper")[0].style.visibility = select.checked?"visible":"hidden";
-        }
-        
-        /**
-         * 显示图层选择
-         **/
-         function showRightTopMenu()
-        {
-            let select = document.getElementById("showLayerSelect");
-            mViewer.baseLayerPicker.container.style.visibility = select.checked?"visible":"hidden";
-        }
-        
-        /**
-         * 显示全屏 
-         **/
-         function showFullScreen()
-        {
-            let select = document.getElementById("showFullScreen");
-            mViewer.fullscreenButton.container.style.visibility = select.checked?"visible":"hidden";
-        }
-
-        /**
-         * 是否显示阴影
-         **/
-         function showShadow()
-        {
-            let select = document.getElementById("showShadow");
-            mViewer.shadows = select.checked?true:false;
-        }
+        //cesium_container 对应容器div 的ID
+        var mViewer = new Cesium.Viewer('cesium_container',{
+            animation: false,        //是否创建动画小器件，左下角仪表
+            timeline: false,         //是否显示时间线控件
+            geocoder: false,         //是否显示地名查找控件
+            baseLayerPicker: false,  //是否显示图层选择控件
+            shadows: false,// 阴影是否被太阳投射
+            shouldAnimate:false,
+            fullscreenButton:false
+        });
+        mViewer.cesiumWidget.creditContainer.style.display = "none";
+        mViewer._toolbar.style.visibility="hidden"
     </script>
 </body>
 </html>
