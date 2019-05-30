@@ -11,7 +11,8 @@
 <body>
     <div id = "cesium_container" style="width:100%;height:100%;">
     <div style="position:absolute;z-index:9;top:20px;left:20px;">
-        
+        <input type="checkbox" id="showClipImage" onchange="showClipImage()" checked /><span style="margin-right:10px;color:white">是否裁剪影像</span> <br> 
+        <input type="checkbox" id="showOutBox" onchange="showOutBox()" checked /><span style="margin-right:10px;color:white">是否显示外框</span> <br> 
     </div>
     </div>
     <script>
@@ -21,10 +22,20 @@
             shouldAnimate : true,
             terrainProvider: Cesium.createWorldTerrain()
         });
+        var mBoxEntity,mGuandaoBoxEntity;
         var clippingPlanesEnabled = true;
         var edgeStylingEnabled = true;
-        loadCesiumMan();
-        function loadCesiumMan()
+
+        //加载模型
+        loadModels();
+
+        //加载管道模型
+        loadGuandaoModels();
+        
+        /**
+         * 加载模型集合
+         **/
+        function loadModels()
         {
             var long = 116.0744619;
             var lat =39.0503706; 
@@ -37,6 +48,7 @@
             var position_box =  Cesium.Cartesian3.fromDegrees(long, lat, 0)
             //添加外部立方体
             var entity = mViewer.entities.add({
+                id:"box",
                 position : position_box,
                 box : {
                     dimensions : new Cesium.Cartesian3(4000.0, 4000.0, 4000.0),
@@ -45,6 +57,7 @@
                     outlineColor : Cesium.Color.WHITE
                 }
             });
+            mBoxEntity = entity;
 
             //添加人物模型
             mViewer.entities.add({
@@ -90,14 +103,95 @@
                     new Cesium.ClippingPlane(new Cesium.Cartesian3( 1.0,  0.0, 0.0), -2000.0),
                     new Cesium.ClippingPlane(new Cesium.Cartesian3(-1.0,  0.0, 0.0), -2000.0),
                     new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0,  1.0, 0.0), -2000.0),
-                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0, -1.0, 0.0), -2000.0)
+                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0, -1.0, 0.0), -2000.0),
                 ],
                 edgeWidth: edgeStylingEnabled ? 1.0 : 0.0,
-                edgeColor: Cesium.Color.WHITE,
+                edgeColor: Cesium.Color.BLUE,
                 enabled : clippingPlanesEnabled
             });
 
             mViewer.trackedEntity = entity;
+        }
+
+        /**
+         * 是否裁剪影像
+         **/
+        function showClipImage()
+        {
+            let select = document.getElementById("showClipImage");
+            mViewer.scene.globe.clippingPlanes.enabled =  select.checked?true:false;
+            mViewer.scene.globe.clippingPlanes.edgeWidth =  select.checked? 1.0 : 0.0;
+        }
+
+        /**
+         * 是否裁剪影像
+         **/
+        function showOutBox()
+        {
+            let select = document.getElementById("showOutBox").checked;
+            if(!select)
+            {
+                mViewer.entities.removeById("box");
+                mViewer.entities.removeById("box_guandao");
+            }
+            else
+            {
+                mViewer.entities.add(mBoxEntity);
+                mViewer.entities.add(mGuandaoBoxEntity);
+            }
+        }
+        
+        /**
+         * 加载管线模型
+         **/
+        function loadGuandaoModels()
+        {
+            var long = 116.0004619;
+            var lat =39.0503706; 
+            //人物模型位置
+            var position =  Cesium.Cartesian3.fromDegreesArray([
+                long, lat,
+                long, lat+0.03,
+                long-0.03, lat+0.03]);
+
+            //设置高度为负值
+            for(let i = 0;i<position.length;i++)
+                position[i].z -=1000;
+
+            //立方体位置
+            var position_box =  Cesium.Cartesian3.fromDegrees(long, lat, 0)
+            //添加外部立方体
+            var entity = mViewer.entities.add({
+                id:"box_guandao",
+                position : position_box,
+                box : {
+                    dimensions : new Cesium.Cartesian3(8000.0, 8000.0, 8000.0),
+                    material : Cesium.Color.WHITE.withAlpha(0.3),
+                    outline : true,
+                    outlineColor : Cesium.Color.WHITE
+                }
+            });
+            mViewer.scene.globe.clippingPlanes.add(new Cesium.ClippingPlane(position_box,0));
+            mGuandaoBoxEntity = entity;
+            var redTube = mViewer.entities.add({
+                name : 'Red tube with rounded corners',
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.RED
+                }
+            });
+        }
+
+        function computeCircle(radius)
+        {
+            var positions = [];
+            for (var i = 0; i < 360; i++)
+            {
+                var radians = Cesium.Math.toRadians(i);
+                positions.push(new Cesium.Cartesian2(radius * Math.cos(radians), radius * Math.sin(radians)));
+            }
+            return positions;
         }
     </script>
 </body>
