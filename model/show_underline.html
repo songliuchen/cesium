@@ -22,7 +22,7 @@
             shouldAnimate : true,
             terrainProvider: Cesium.createWorldTerrain()
         });
-        var mBoxEntity,mGuandaoBoxEntity;
+        var mBoxEntity;
         var clippingPlanesEnabled = true;
         var edgeStylingEnabled = true;
 
@@ -37,7 +37,7 @@
          **/
         function loadModels()
         {
-            var long = 116.0744619;
+            var long = 116.0344619;
             var lat =39.0503706; 
             //人物模型位置
             var position =  Cesium.Cartesian3.fromDegrees(long-0.01, lat-0.01, -1000);
@@ -51,7 +51,7 @@
                 id:"box",
                 position : position_box,
                 box : {
-                    dimensions : new Cesium.Cartesian3(4000.0, 4000.0, 4000.0),
+                    dimensions : new Cesium.Cartesian3(20000.0, 20000.0, 10000.0),
                     material : Cesium.Color.WHITE.withAlpha(0.3),
                     outline : true,
                     outlineColor : Cesium.Color.WHITE
@@ -100,10 +100,10 @@
             mViewer.scene.globe.clippingPlanes = new Cesium.ClippingPlaneCollection({
                 modelMatrix : entity.computeModelMatrix(Cesium.JulianDate.now()),
                 planes : [
-                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 1.0,  0.0, 0.0), -2000.0),
-                    new Cesium.ClippingPlane(new Cesium.Cartesian3(-1.0,  0.0, 0.0), -2000.0),
-                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0,  1.0, 0.0), -2000.0),
-                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0, -1.0, 0.0), -2000.0),
+                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 1.0,  0.0, 0.0), -10000.0),
+                    new Cesium.ClippingPlane(new Cesium.Cartesian3(-1.0,  0.0, 0.0), -10000.0),
+                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0,  1.0, 0.0), -10000.0),
+                    new Cesium.ClippingPlane(new Cesium.Cartesian3( 0.0, -1.0, 0.0), -10000.0),
                 ],
                 edgeWidth: edgeStylingEnabled ? 1.0 : 0.0,
                 edgeColor: Cesium.Color.BLUE,
@@ -137,7 +137,6 @@
             else
             {
                 mViewer.entities.add(mBoxEntity);
-                mViewer.entities.add(mGuandaoBoxEntity);
             }
         }
         
@@ -148,41 +147,155 @@
         {
             var long = 116.0004619;
             var lat =39.0503706; 
-            //人物模型位置
-            var position =  Cesium.Cartesian3.fromDegreesArray([
-                long, lat,
-                long, lat+0.03,
-                long-0.03, lat+0.03]);
-
-            //设置高度为负值
-            for(let i = 0;i<position.length;i++)
-                position[i].z -=1000;
-
-            //立方体位置
-            var position_box =  Cesium.Cartesian3.fromDegrees(long, lat, 0)
-            //添加外部立方体
-            var entity = mViewer.entities.add({
-                id:"box_guandao",
-                position : position_box,
-                box : {
-                    dimensions : new Cesium.Cartesian3(8000.0, 8000.0, 8000.0),
-                    material : Cesium.Color.WHITE.withAlpha(0.3),
-                    outline : true,
-                    outlineColor : Cesium.Color.WHITE
-                }
-            });
-            mViewer.scene.globe.clippingPlanes.add(new Cesium.ClippingPlane(position_box,0));
-            mGuandaoBoxEntity = entity;
-            var redTube = mViewer.entities.add({
-                name : 'Red tube with rounded corners',
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long, lat,-1000,
+                long+0.03, lat,-1000]);
+            mViewer.entities.add({
                 polylineVolume : {
                     positions : position,
                     shape : computeCircle(200.0),
                     material : Cesium.Color.RED
                 }
-            });
-        }
+            }); 
 
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long, lat,-1000,
+                long, lat+0.03,-1000]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.BLUE
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long, lat+0.03,-1000,
+                long-0.03, lat+0.03,-1000]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.GREEN
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.03, lat+0.03,-1000,
+                long-0.03, lat+0.06,-1000]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.YELLOW
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.03, lat+0.06,-1000,
+                long-0.06, lat+0.06,-1000]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.GRAY
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.06, lat+0.06,-1000,
+                long-0.06, lat+0.03,-1000]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.WHITE
+                }
+            }); 
+            
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.06, lat+0.03,-1000,
+                long-0.06, lat+0.03,-3000]);
+            mViewer.entities.add({
+                position: Cesium.Cartesian3.fromDegrees(long-0.06, lat+0.03,-2050),
+                cylinder : {
+                    length : 2500.0,
+                    topRadius : 200.0,
+                    bottomRadius : 200.0,
+                    material : Cesium.Color.PINK
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.06, lat+0.03,-3500,
+                long-0.03, lat+0.03,-3500]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.WHITE
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.03, lat+0.03,-3500,
+                long-0.06, lat+0.03,-3500]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.AQUA
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long-0.03, lat+0.03,-3500,
+                long-0.03, lat+0.06,-3500]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.ORANGE
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long, lat+0.06,-3500,
+                long-0.03, lat+0.06,-3500]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.OLIVE
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long+0.09, lat+0.06,-3500,
+                long-0.03, lat+0.06,-3500]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.LIME
+                }
+            }); 
+
+            var position =  Cesium.Cartesian3.fromDegreesArrayHeights([
+                long+0.09, lat+0.06,-3500,
+                long+0.09, lat-0.03,-3500]);
+            mViewer.entities.add({
+                polylineVolume : {
+                    positions : position,
+                    shape : computeCircle(200.0),
+                    material : Cesium.Color.BLUE
+                }
+            }); 
+        }
+        
+        /**
+         * 形成管道位置
+         **/
         function computeCircle(radius)
         {
             var positions = [];
