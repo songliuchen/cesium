@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>加载topo数据模型</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <div id="fly_operator_container" style="position:absolute;z-index:9;top:10px;left:10px;">
+        <button onclick="initDefaultStyle()">默认样式</button>
+    </div>
+    <script>
+        //cesium_container 对应容器div 的ID
+        var mViewer = new Cesium.Viewer('cesium_container');
+        /**
+         * 加载默认样式
+         */
+        function initDefaultStyle()
+        {
+            mViewer.dataSources.removeAll();
+            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson'));
+            mViewer.zoomTo(Cesium.Cartesian3.fromDegrees(116.2345,39.34555));
+        }
+    </script>
+</body>
+</html>
