@@ -35,4 +35,10 @@
 
 [地下模型展示](https://songliuchen.github.io/cesium/model/show_underline.html)  
 - 创建地下模型  
-- 裁剪地下模型对应的地面影像  
+- 裁剪地下模型对应的地面影像 
+
+[geojson/topojson数据展示](https://songliuchen.github.io/cesium/datasource/geojson.html)  
+- 加载geojson数据  
+- 设置填充、边界颜色、透明度
+- 设置数据高度
+- 分类渲染

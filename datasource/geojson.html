@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>加载topo数据模型</title>
+    <title>加载geojson数据模型</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
@@ -32,7 +32,7 @@
         function initDefaultStyle()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson'));
+            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json'));
         }
 
         /**
@@ -41,7 +41,7 @@
         function borderColorSelect()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson', {
+            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
                 strokeWidth: Number(document.getElementById("border_size").value)
@@ -54,7 +54,7 @@
         function fillColorSelect()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson', {
+            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
                 strokeWidth: Number(document.getElementById("border_size").value)
@@ -67,7 +67,7 @@
          function fillAlphaSelect()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson', {
+            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
                 strokeWidth: Number(document.getElementById("border_size").value)
@@ -81,7 +81,7 @@
         function borderSize()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson', {
+            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
                 strokeWidth: Number(document.getElementById("border_size").value)
@@ -95,7 +95,7 @@
         {
             reset();
             Cesium.Math.setRandomNumberSeed(0);
-            var promise = Cesium.GeoJsonDataSource.load('../assets/cesium/china.topojson');
+            var promise = Cesium.GeoJsonDataSource.load('../assets/cesium/china.json');
             promise.then(function(dataSource) {
                 mViewer.dataSources.add(dataSource);
                 var entities = dataSource.entities.values;
