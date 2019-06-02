@@ -22,6 +22,7 @@
         <button onclick="setPolygonColor()">设置单个数据颜色</button>
         <button onclick="setPolygonAlpha()">设置单个数据透明度</button>
         <button onclick="setAllPolygonHeight()">随机设置所有图形高度</button>
+        <input type="checkbox" id="setPolygonShow" onchange="setPolygonShow()" checked /><span style="margin-right:10px;color:white">设置单个数据是否显示</span> <br>
     </div>
     <script>
         //cesium_container 对应容器div 的ID
@@ -32,7 +33,12 @@
         function initDefaultStyle()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json'));
+            var promise = mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json'));
+            promise.then(function(dataSource) {
+                showName();
+            }).otherwise(function(error){
+                window.alert(error);
+            });
         }
 
         /**
@@ -41,11 +47,16 @@
         function borderColorSelect()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
+            var promise =mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
-                strokeWidth: Number(document.getElementById("border_size").value)
+                strokeWidth: Number(document.getElementById("border_size").value),
             }));
+            promise.then(function(dataSource) {
+                showName();
+            }).otherwise(function(error){
+                window.alert(error);
+            });
         }
 
         /**
@@ -54,11 +65,16 @@
         function fillColorSelect()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
+            var promise =mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
                 strokeWidth: Number(document.getElementById("border_size").value)
             }));
+            promise.then(function(dataSource) {
+                showName();
+            }).otherwise(function(error){
+                window.alert(error);
+            });
         }
 
         /**
@@ -67,11 +83,16 @@
          function fillAlphaSelect()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
+            var promise =mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
-                strokeWidth: Number(document.getElementById("border_size").value)
+                strokeWidth: Number(document.getElementById("border_size").value),
             }));
+            promise.then(function(dataSource) {
+                showName();
+            }).otherwise(function(error){
+                window.alert(error);
+            });
         }
 
 
@@ -81,11 +102,16 @@
         function borderSize()
         {
             reset();
-            mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
+            var promise =mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json', {
                 stroke: Cesium.Color.fromCssColorString(document.getElementById("border_color").value),
                 fill: Cesium.Color.fromCssColorString(document.getElementById("fill_color").value).withAlpha(Number(document.getElementById("fill_alpha").value)),
                 strokeWidth: Number(document.getElementById("border_size").value)
             }));
+            promise.then(function(dataSource) {
+                showName();
+            }).otherwise(function(error){
+                window.alert(error);
+            });
         }
 
         /**
@@ -95,26 +121,29 @@
         {
             reset();
             Cesium.Math.setRandomNumberSeed(0);
-            var promise = Cesium.GeoJsonDataSource.load('../assets/cesium/china.json');
+            var promise = mViewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets/cesium/china.json'));
             promise.then(function(dataSource) {
-                mViewer.dataSources.add(dataSource);
                 var entities = dataSource.entities.values;
                 var colorHash = {};
-                for (var i = 0; i < entities.length; i++) {
+                for (var i = 0; i < entities.length; i++)
+                {
                     var entity = entities[i];
-                    entity.name = i;
-                    var color = colorHash[i];
-                    if (!color)
-                    {
-                        color = Cesium.Color.fromRandom({
-                            alpha : 1.0
-                        });
-                        colorHash[i] = color;
-                    }
-                    entity.polygon.material = color;
+                    entity.polygon.material = Cesium.Color.fromRandom({alpha : 0.5 });
                     entity.polygon.outline = false;
-                    entity.polygon.extrudedHeight =0;
+                    // label = {
+                    //     text: entity.name,
+                    //     font : '12px Helvetica',
+                    //     fillColor : Cesium.Color.WHITE,
+                    //     outlineColor : Cesium.Color.BLACK,
+                    //     outlineWidth : 4,
+
+                    //     style : Cesium.LabelStyle.FILL_AND_OUTLINE,
+                    //     verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+                    //     pixelOffset : new Cesium.Cartesian2(0, -9)
+                    // };
+                    // entity.label = label;
                 }
+                showName();
             }).otherwise(function(error){
                 window.alert(error);
             });
@@ -166,11 +195,44 @@
         }
 
         /**
+         * 设置图形是否显示
+         **/
+         function setPolygonShow()
+        {
+            let select = document.getElementById("setPolygonShow");
+            if(mViewer.dataSources.length>0)
+                mViewer.dataSources.get(0).entities.values[0].show = select.checked?true:false;
+        }
+
+        /**
+         * 显示名称
+         **/
+        function showName()
+        {
+            if(mViewer.dataSources.length>0)
+            {
+                let entities = mViewer.dataSources.get(0).entities.values;
+                for(let i = 0;i<entities.length;i++)
+                {
+                    let entity = entities[i];
+                    let location = entity.properties.cp.getValue();
+                    mViewer.entities.add({
+                        position : Cesium.Cartesian3.fromDegrees(location[0],location[1]),
+                        label : {
+                            text : entity.name
+                        }
+                    });
+                }
+            }
+        }
+
+        /**
          * 重置数据源
          **/
         function reset()
         {
             mViewer.dataSources.removeAll();
+            mViewer.entities.removeAll();
             mViewer.camera.lookAt(Cesium.Cartesian3.fromDegrees(116.2345 , 39.34555), new Cesium.Cartesian3(0.0, -4790000.0, 10000.0));
         }
         

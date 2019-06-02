@@ -22,6 +22,7 @@
         <button onclick="setPolygonColor()">设置单个数据颜色</button>
         <button onclick="setPolygonAlpha()">设置单个数据透明度</button>
         <button onclick="setAllPolygonHeight()">随机设置所有图形高度</button>
+        <input type="checkbox" id="setPolygonShow" onchange="setPolygonShow()" checked /><span style="margin-right:10px;color:white">设置单个数据是否显示</span> <br>
     </div>
     <script>
         //cesium_container 对应容器div 的ID
@@ -163,6 +164,16 @@
                     mViewer.dataSources.get(0).entities.values[i].polygon.extrudedHeight= 500000*Math.random();
                 }
             }
+        }
+
+        /**
+         * 设置图形是否显示
+         **/
+         function setPolygonShow()
+        {
+            let select = document.getElementById("setPolygonShow");
+            if(mViewer.dataSources.length>0)
+                mViewer.dataSources.get(0).entities.values[0].show = select.checked?true:false;
         }
 
         /**
