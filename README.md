@@ -43,3 +43,6 @@
 - 设置数据高度
 - 分类渲染
 - 添加标注
+
+[3d titleset](https://songliuchen.github.io/cesium/datasource/3dtities.html)  
+- 加载自定义模型数据
