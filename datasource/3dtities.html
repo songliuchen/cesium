@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>3D Tities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <script>
+        var mViewer = new Cesium.Viewer('cesium_container',{
+            terrainProvider: Cesium.createWorldTerrain()
+        });
+        mViewer.scene.globe.depthTestAgainstTerrain = false;
+        var initialPosition = Cesium.Cartesian3.fromDegrees(121.234249, 30.961029, 10);
+        var initialOrientation = new Cesium.HeadingPitchRoll.fromDegrees(100.27879878293835, -100.34390550872461, 0.0716951918898415);
+        mViewer.scene.camera.setView({
+            destination: initialPosition,
+            orientation: {
+                heading: 6.116051,
+                pitch: -0.275007,
+                roll: 6.283185
+            },
+            endTransform: Cesium.Matrix4.IDENTITY
+        });
+
+        var tileset = new Cesium.Cesium3DTileset({ url: "http://47.97.109.182:6101/huangpujiang/tileset.json" });
+        mViewer.scene.primitives.add(tileset);
+
+        mViewer.trackedEntity = undefined;
+        mViewer.zoomTo(mViewer.entities, new Cesium.HeadingPitchRange(Cesium.Math.toRadians(-90), Cesium.Math.toRadians(-15), 7500));
+    </script>
+</body>
+</html>

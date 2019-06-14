@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>3D Tities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <script>
+        var mViewer = new Cesium.Viewer('cesium_container',{
+            terrainProvider: Cesium.createWorldTerrain()
+        });
+        mViewer.scene.globe.depthTestAgainstTerrain = false;
+        var initialPosition = Cesium.Cartesian3.fromDegrees(125.14065205309612, 43.82750180171802, 206.80004564680866);
+        mViewer.scene.camera.setView({
+            destination: initialPosition,
+            orientation: {
+                heading: 0,
+                pitch: 150,
+                roll: 0
+            },
+            endTransform: Cesium.Matrix4.IDENTITY
+        });
+
+        var tileset = new Cesium.Cesium3DTileset({ url: "http://47.97.109.182:6101/qichegongyezhuanye/Scene/Production_3.json" });
+        mViewer.scene.primitives.add(tileset);
+    </script>
+</body>
+</html>

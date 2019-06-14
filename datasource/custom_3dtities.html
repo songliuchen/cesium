@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>3D Tities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.58/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.58/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <script>
+        var mViewer = new Cesium.Viewer('cesium_container',{
+            terrainProvider: Cesium.createWorldTerrain()
+        });
+        mViewer.imageryLayers.addImageryProvider(new Cesium.BingMapsImageryProvider({
+            url: 'https://dev.virtualearth.net',
+            mapStyle: "Aerial",
+            key: "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5"
+        }));
+        var scene = mViewer.scene;
+        var widget = mViewer.cesiumWidget;
+        try {
+            var promise = scene.primitives.add(new Cesium.Cesium3DTileset({url:"http://www.supermapol.com/realspace/services/3D-niaocao_water/rest/realspace"}));
+            Cesium.when(promise, function (layers) {
+                scene.camera.setView({
+                    destination: new Cesium.Cartesian3.fromDegrees(116.38621009526075, 39.98468016277832, 313.2286367219722),
+                    orientation: {
+                        heading: 6.116051,
+                        pitch: -0.275007,
+                        roll: 6.283185
+                    }
+                });
+            }, function () {
+                var title = '加载SCP失败，请检查网络连接状态或者url地址是否正确？';
+                widget.showErrorPanel(title, undefined, e);
+            });
+        }
+        catch (e) {
+            if (widget._showRenderLoopErrors) {
+                var title = '渲染时发生错误，已停止渲染。';
+                widget.showErrorPanel(title, undefined, e);
+            }
+        }
+    </script>
+</body>
+</html>
