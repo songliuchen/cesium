@@ -3,10 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>3D Tities</title>
+    <title>3D Tiles</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+    <style>
+            html,body
+            {
+                width:100%;
+                height:100%;
+                padding:0;
+                margin:0
+            }
+        </style>
 </head>
 <body>
     <div id = "cesium_container" style="width:100%;height:100%;">
@@ -16,19 +25,21 @@
             terrainProvider: Cesium.createWorldTerrain()
         });
         mViewer.scene.globe.depthTestAgainstTerrain = false;
-        var initialPosition = Cesium.Cartesian3.fromDegrees(125.14065205309612, 43.82750180171802, 206.80004564680866);
+        var initialPosition = Cesium.Cartesian3.fromDegrees(121.234249, 30.961029, 10);
+        var initialOrientation = new Cesium.HeadingPitchRoll.fromDegrees(100.27879878293835, -100.34390550872461, 0.0716951918898415);
         mViewer.scene.camera.setView({
-            destination: initialPosition,
-            orientation: {
-                heading: 0,
-                pitch: 150,
-                roll: 0
-            },
             endTransform: Cesium.Matrix4.IDENTITY
         });
 
-        var tileset = new Cesium.Cesium3DTileset({ url: "http://47.97.109.182:6101/qichegongyezhuanye/Scene/Production_3.json" });
+        var tileset = new Cesium.Cesium3DTileset({ url: "../assets/cesium/3dtities/Scene/Production_1.json" });
         mViewer.scene.primitives.add(tileset);
+
+        tileset.readyPromise.then(function(tileset) {
+    	    mViewer.scene.primitives.add(tileset);
+    	    mViewer.zoomTo(tileset, new Cesium.HeadingPitchRange());
+    	}).otherwise(function(error) {
+    	    console.log(error);
+    	});
     </script>
 </body>
 </html>
