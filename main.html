@@ -241,7 +241,7 @@
        }
     </style>
 </head>
-<body>
+<body onhashchange="hashChanged(event)">
     <div class="nav">
         <img class="logo" src="https://cesiumjs.org/favicon.ico" />
         <div class="title">
@@ -267,10 +267,13 @@
                 </div>
                 <ul class="sub_container">
                     <li class="sub_menu">
-                        <a href="#index-index8"><span>Hello World</span></a>
+                        <a href="#base-load_cesium"><span>Hello World</span></a>
                     </li>
                     <li class="sub_menu">
-                        <a href="#index-index8"><span>控件操作</span></a>
+                        <a href="#base-load_cesium2"><span>去除所有控件</span></a>
+                    </li>
+                    <li class="sub_menu">
+                        <a href="#base-load_cesium3"><span>动态显示隐藏控件</span></a>
                     </li>
                 </ul>
             </li>
@@ -281,11 +284,11 @@
         <iframe id ="web_loader" src=""></iframe>
         <ul id = "list_loader">
             <li>
-                <h3 class="title" name="index"><i class="fa fa-building"></i>&nbsp;&nbsp;基础</h3>
+                <h3 class="title" name="base"><i class="fa fa-building"></i>&nbsp;&nbsp;基础</h3>
                 <div class ="content">
                     <a href ="./main.html?type=1&href=base/load_cesium.html" target="_blank">
                         <div class="sub_title">Hello World</div>
-                        <div class="cart">
+                        <div class="cart" name="base-load_cesium">
                             <span class="des">Hello Cesium</span>
                             <img class="img" src="https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/gallery/Drawing%20on%20Terrain.jpg" >
                         </div>
@@ -398,6 +401,15 @@
 
                 rootMenu.children[2].style.transform = "rotate(180deg)";
                 rootMenu.children[2].style.transitionDuration = "0.2s";
+            }
+        }
+
+        function hashChanged(event)
+        {
+            var url = event.newURL.split("#")[1];
+            if(type)
+            {
+                
             }
         }
     </script>
