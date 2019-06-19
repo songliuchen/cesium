@@ -2,7 +2,7 @@
 [脑图](http://naotu.baidu.com/file/1bb0734b72b6f7efb888a93a2cb642ce)  
 
 ## Cesium DEMO集合（完善中）
-- 效果图1
+效果图1  
 ![效果图1](/assets/readme/demo.png)
 
 [示例集合](https://songliuchen.github.io/cesium)  
