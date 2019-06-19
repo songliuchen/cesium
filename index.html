@@ -203,6 +203,7 @@
         -moz-transition:width 0.2s;
         -webkit-transition:width 0.2s;
         -o-transition:width 0.2s;
+        overflow-y: scroll;
         height: 100%;
        }
        #web_loader
@@ -315,13 +316,55 @@
                 </div>
                 <ul class="sub_container">
                     <li class="sub_menu">
-                        <a href="#/base-load_cesium" class ="route"><span>Hello World</span></a>
+                        <a href="#/base-load_cesium" class ="route"><span>Hello Cesium</span></a>
                     </li>
                     <li class="sub_menu">
                         <a href="#/base-load_cesium2" class ="route"><span>去除所有控件</span></a>
                     </li>
                     <li class="sub_menu">
                         <a href="#/base-load_cesium3" class ="route"><span>动态显示隐藏控件</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="root_menu">
+                <div class="menu_item" onclick="toggoleSildMenu(event)">
+                    <span class="fa fa-plane icon"></span>
+                    <span>模型</span>
+                    <span class="fa fa-angle-down pull-right"></span>
+                </div>
+                <ul class="sub_container">
+                    <li class="sub_menu">
+                        <a href="#/model-show" class ="route"><span>模型属性修改</span></a>
+                    </li>
+                    <li class="sub_menu">
+                        <a href="#/model-show_underline" class ="route"><span>地下模型</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="root_menu">
+                <div class="menu_item" onclick="toggoleSildMenu(event)">
+                    <span class="fa fa-database icon"></span>
+                    <span>数据源</span>
+                    <span class="fa fa-angle-down pull-right"></span>
+                </div>
+                <ul class="sub_container">
+                    <li class="sub_menu">
+                        <a href="#/datasource-geojson" class ="route"><span>GeoJSON</span></a>
+                    </li>
+                    <li class="sub_menu">
+                        <a href="#/datasource-topojson" class ="route"><span>TopoJSON</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="root_menu">
+                <div class="menu_item" onclick="toggoleSildMenu(event)">
+                    <span class="fa fa-paper-plane icon"></span>
+                    <span>路线</span>
+                    <span class="fa fa-angle-down pull-right"></span>
+                </div>
+                <ul class="sub_container">
+                    <li class="sub_menu">
+                        <a href="#/fly-fly" class ="route"><span>飞行</span></a>
                     </li>
                 </ul>
             </li>
@@ -335,12 +378,76 @@
                 <h3 class="title" name="base"><i class="fa fa-building"></i>&nbsp;&nbsp;基础</h3>
                 <div class ="content">
                     <div class="sub_title">Hello World</div>
-                    <a href ="./index.html#/base-load_cesium?type=1" target="_blank">
-                        <div class="cart" name="base-load_cesium">
+                    <div class="cart" name="base-load_cesium">
+                        <a href ="./index.html#/base-load_cesium?type=1" target="_blank">
                             <span class="des">Hello Cesium</span>
-                            <img class="img" src="https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/gallery/Drawing%20on%20Terrain.jpg" >
-                        </div>
-                    </a>
+                            <img class="img" src="./assets/thumb/hello_world.jpg" >
+                        </a>
+                    </div>
+
+                    <div class="cart" name="base-load_cesium2">
+                        <a href ="./index.html#/base-load_cesium2?type=1" target="_blank">
+                            <span class="des">去除所有控件</span>
+                            <img class="img" src="./assets/thumb/no_controller.png" >
+                        </a>
+                    </div>
+
+                    <div class="cart" name="base-load_cesium3">
+                        <a href ="./index.html#/base-load_cesium3?type=1" target="_blank">
+                            <span class="des">动态显示隐藏控件</span>
+                            <img class="img" src="./assets/thumb/dynamic_controller.png" >
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h3 class="title" name="model"><i class="fa fa-plane"></i>&nbsp;&nbsp;模型</h3>
+                <div class ="content">
+                    <div class="sub_title">模型基础操作</div>
+                    <div class="cart" name="model-show">
+                        <a href ="./index.html#/model-show?type=1" target="_blank">
+                            <span class="des">模型属性修改</span>
+                            <img class="img" src="./assets/thumb/model_show.png" >
+                        </a>
+                    </div>
+
+                    <div class="cart" name="model-show_underline">
+                        <a href ="./index.html#/model-show_underline?type=1" target="_blank">
+                            <span class="des">地下模型</span>
+                            <img class="img" src="./assets/thumb/model_show_underline.png" >
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h3 class="title" name="datasource"><i class="fa fa-database"></i>&nbsp;&nbsp;数据源</h3>
+                <div class ="content">
+                    <div class="sub_title">JSON数据源</div>
+                    <div class="cart" name="datasource-geojson">
+                        <a href ="./index.html#/datasource-geojson?type=1" target="_blank">
+                            <span class="des">Geo JSON</span>
+                            <img class="img" src="./assets/thumb/datasource_geojson.png" >
+                        </a>
+                    </div>
+
+                    <div class="cart" name="datasource-topojson">
+                        <a href ="./index.html#/datasource-topojson?type=1" target="_blank">
+                            <span class="des">Topo JSON</span>
+                            <img class="img" src="./assets/thumb/datasource_topojson.png" >
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h3 class="title" name="fly"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;路线</h3>
+                <div class ="content">
+                    <div class="sub_title">飞行</div>
+                    <div class="cart" name="fly-fly">
+                        <a href ="./index.html#/fly-fly?type=1" target="_blank">
+                            <span class="des">飞行</span>
+                            <img class="img" src="./assets/thumb/fly_fly.png" >
+                        </a>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -380,7 +487,7 @@
             var routes = document.getElementsByClassName("route");
             for(var i = 0;i<routes.length;i++)
             {
-                if(routes[i].getAttribute('href').endsWith("?type=1"))
+                if(!routes[i].getAttribute('href').endsWith("?type=1"))
                     routes[i].setAttribute("href",routes[i].getAttribute('href')+"?type=1");
             }
         }
