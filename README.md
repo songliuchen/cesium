@@ -3,6 +3,8 @@
 
 ## Cesium DEMO集合（完善中）
 
+![效果图1](/assets/readme/demo.png)
+
 [示例集合](https://songliuchen.github.io/cesium)  
 [综合展示](https://songliuchen.github.io/cesium/main.html)  
 [加载地图](https://songliuchen.github.io/cesium/base/load_cesium.html)    
@@ -46,3 +48,4 @@
 
 [3DTiles](https://songliuchen.github.io/cesium/datasource/3dtiles.html)  
 - 加载自定义模型数据
+
