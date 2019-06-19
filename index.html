@@ -5,24 +5,558 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Cesium Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cesiumjs.org/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://cesiumjs.org/favicon.ico" type="image/x-icon"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+       html,body
+       {
+           padding:0;
+           margin:0;
+           height: 100%;
+           width: 100%;
+           min-width: 1000px;
+           min-height: 600px;
+       }
+       a{
+           text-decoration: none;
+           color:white;
+       }
+       ul
+       {
+           margin:0px;
+           padding:0px;
+       }
+       li
+       {
+           list-style-type:none;
+        }
+       .nav
+       {
+           background-color:#3c8dbc;
+           padding-left: 17px;
+           height:60px;
+       }
+       .nav .logo
+       {
+           width:35px;
+           height:35px;
+           vertical-align: middle;
+           display: inline-block;
+       }
+       .nav .title
+       {
+           color:white;
+           font-size:24px;
+           line-height: 60px;
+           vertical-align: middle;
+           margin-left:10px;
+           display: inline-block;
+       }
+       .nav .menu
+       {
+            color:white;
+            text-align: center;
+            vertical-align: middle;
+            float:right;
+       }
+       .nav .menu .item
+       {
+            margin-right:30px;
+            padding-left:10px;
+            padding-right: 10px;
+            border-top:4px solid transparent;
+            line-height: 56px;
+            cursor:pointer;
+       }
+       .nav .menu .item:hover
+       {
+           background-color:#487EA5;
+           border-top:4px solid #d69e36;
+           line-height: 56px;
+       }
+       .nav .menu .item .fa-sort-down
+       {
+           vertical-align: text-top;
+       }
+       .nav .menu .sub_menu
+       {
+           display: none;
+           position: absolute;
+           top:0;
+           left:0;
+           text-align: center;
+           min-width:200px;
+       }
+       .nav .menu .sub_menu li
+       {
+            height: 44px;
+            background-color: #3375A1;
+            line-height: 44px;
+            padding-left: 15px;
+            padding-right: 15px;
+            cursor:pointer;
+       }
+       .nav .menu .sub_menu li:hover
+       {
+           background-color:#385990
+       }
+       .nav .menu .sub_menu li a
+       {
+           display: inline-block;
+           width:100%;
+       }
+       .side
+       {
+           width:230px;
+           height:100%;
+           display: inline-block;
+           background-color:#3c8dbc;
+            transition:width 0.2s;
+            -moz-transition:width 0.2s;
+            -webkit-transition:width 0.2s;
+            -o-transition:width 0.2s;
+       }
+       .side .expend
+       {
+           background-color:#2e658a;
+           color:white;
+           cursor: pointer;
+           text-align: center;
+           vertical-align: middle;
+           line-height: 36px;
+           height:36px;
+       }
+       .side .menu .root_menu
+       {
+        background-color:#3c8dbc;
+           color:white;
+           font-weight: 400;
+           font-size: 14px;
+           overflow: hidden;
+           cursor: pointer;
+       }
+       .side .menu .root_menu .menu_item
+       {
+            background-color:#3c8dbc;
+           line-height: 44px;
+           padding-left:17px;
+           padding-right:17px;
+           overflow: hidden;
+            white-space: nowrap;
+            height: 44px;
+       }
+       .side .menu .root_menu .menu_item:hover
+       {
+            background-color:#43759d
+       }
+       .side .menu .root_menu .icon
+       {
+           margin-right:12px;
+       }
+       .side .menu .root_menu .pull-right
+       {
+           float:right;
+           line-height: 44px;
+       }
+       
+       .side .menu .sub_container
+       {
+           height:0px;
+           overflow: hidden;
+           transition:height 0.5s;
+            -moz-transition:height 0.5s;
+            -webkit-transition:height 0.5s;
+            -o-transition:height 0.5s;
+       }
+       .side .menu .sub_menu
+       {
+           line-height: 35px;
+           height: 35px;
+           overflow: hidden;
+            white-space: nowrap;
+       }
+       .side .menu .sub_menu:hover
+       {
+            background-color:#487ea5
+       }
+       .side .menu .sub_menu a
+       {
+        line-height: 35px;
+        width:100%;
+        display: inline-block;
+       }
+       .side .menu .sub_menu a span
+       {
+        padding-left:50px;
+       }
+       .side .menu .sub_menu span
+       {
+            line-height: 35px;
+           height: 35px;
+       }
+       .right
+       {
+        float:right;
+        width:calc(100% - 230px);
+        transition:width 0.2s;
+        -moz-transition:width 0.2s;
+        -webkit-transition:width 0.2s;
+        -o-transition:width 0.2s;
+        height: 100%;
+       }
+       #web_loader
+       {
+           width:100%;
+           height:100%;
+           min-width: 600px;
+           min-height: 400px;
+           border:0;
+           display: none;
+       }
+       #list_loader
+       {
+            padding-left:40px;
+       }
+
+       #list_loader .title
+       {
+           margin-top:40px;
+           margin-bottom: 0;
+           height:40px;
+           line-height: 40px;
+           font-weight: 400;
+           margin-right: 20px;
+           border-bottom: 1px solid #3c8dbc;
+           color:#666666;
+           font-size: 22px;
+       }
+
+       #list_loader .content
+       {
+           margin-top:15px;
+       }
+
+       #list_loader .content .sub_title
+       {
+            font-size:18px;
+            color:#666666;
+       }
+
+       #list_loader .content .cart
+       {
+           width:200px;
+           height:200px;
+           border-radius: 2px;
+           box-shadow: 0 0 3px rgba(150, 150, 150, 0.5);
+           -webkit-box-shadow: 0 0 3px rgba(150, 150, 150, 0.5);
+           display: inline-block;
+           margin-top:20px;
+           margin-left:10px;
+           margin-right:50px;
+           text-align: center; 
+           cursor:pointer;
+           transition: all 0.6s;
+       }
+
+       #list_loader .content .cart:hover
+       {
+        transform: scale(1.1,1.1);
+       }
+       #list_loader .content .cart .des
+       {
+           text-align: center;
+           color:#666666;
+           line-height: 40px;
+           height:40px;
+           font-size:14px;
+       }
+
+       #list_loader .content .cart .img
+       {
+           width:200px;
+           height:160px;
+       }
+    </style>
 </head>
-<body style="margin:10px;">
-    <a href ="base/load_cesium.html">加载地图</a>
-    <br />
-    <a href ="base/load_cesium2.html">初始化去除地图所有控件</a>
-    <br />
-    <a href ="base/load_cesium3.html">地图控件动态显示</a>
-    <br />
-    <a href ="fly/fly.html">三维飞行</a>
-    <br />
-    <a href ="model/show.html">展示基础模型</a>
-    <br />
-    <a href ="model/show_underline.html">展示地下模型</a>
-    <br />
-    <a href ="datasource/topojson.html">展示topojson数据</a>
-    <br />
-    <a href ="datasource/geojson.html">展示geojson数据</a>
-    <br />
-    <a href ="datasource/3dtities.html">展示3dtities数据</a>
+<body onhashchange="hashChanged(event)" onmouseup="mouseDownEvent(event)">
+    <div class="nav">
+        <a href = "./index.html">
+            <img class="logo" src="https://cesiumjs.org/favicon.ico" />
+            <div class="title">
+                Cesium Demo
+            </div>
+        </a>
+        <div class ="menu">
+            <div class="item" onclick="showSubMenu(event)"><span>展示方式&nbsp;&nbsp;</span><span class="fa fa-sort-down"></span></div>
+            <ul class="sub_menu nav_sub_menu">
+                <li>
+                    <a href = "./index.html">图文模式</a>
+                </li>
+                <li>
+                    <a href = "#/base-load_cesium?show_type=1">列表模式</a>
+                </li>
+            </ul>
+        </div>
+        <div class ="menu">
+            <a href='/index.html'><div class="item">首页</div></a>
+        </div>
+    </div>
+    <div class="side">
+        <div class ="expend" onclick="toggle()">
+            <div class="fa  fa-bars fold" id = "expendMenu"></div>
+        </div>
+        <ul class ="menu">
+            <li class="root_menu">
+                <div class="menu_item" onclick="toggoleSildMenu(event)">
+                    <span class="fa fa-object-group icon"></span>
+                    <span>基础</span>
+                    <span class="fa fa-angle-down pull-right"></span>
+                </div>
+                <ul class="sub_container">
+                    <li class="sub_menu">
+                        <a href="#/base-load_cesium" class ="route"><span>Hello World</span></a>
+                    </li>
+                    <li class="sub_menu">
+                        <a href="#/base-load_cesium2" class ="route"><span>去除所有控件</span></a>
+                    </li>
+                    <li class="sub_menu">
+                        <a href="#/base-load_cesium3" class ="route"><span>动态显示隐藏控件</span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="right">
+        <iframe id ="web_loader" src=""></iframe>
+        <ul id = "list_loader">
+            <li>
+                <h3 class="title" name="base"><i class="fa fa-building"></i>&nbsp;&nbsp;基础</h3>
+                <div class ="content">
+                    <div class="sub_title">Hello World</div>
+                    <a href ="./index.html#/base-load_cesium?type=1" target="_blank">
+                        <div class="cart" name="base-load_cesium">
+                            <span class="des">Hello Cesium</span>
+                            <img class="img" src="https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/gallery/Drawing%20on%20Terrain.jpg" >
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </body>
+<script>
+    //初始化
+    init();
+    /**
+     * 初始化
+     */
+    function init()
+    {
+        //判断是列表模式还是演示模式，列表模式隐藏iframe,演示模式隐藏列表容器
+        var type = getUrlParams("type");
+        var showType = getUrlParams("show_type");
+        window.showType = showType;
+        window.type = type;
+        var listElement =  document.getElementById("list_loader");
+        var webElement = document.getElementById("web_loader");
+        if(!type && !showType)
+        {
+            listElement.style.display ="block";
+            webElement.style.display="none";
+        }
+        else
+        {
+            listElement.style.display ="none";
+            webElement.style.display="block";
+        }
+        if(type)
+        {
+            //右侧展示示例内容
+            setIframeSrc(window.location.hash);
+
+            //动态修改左侧所有菜单，添加链接为预览模式
+            var routes = document.getElementsByClassName("route");
+            for(var i = 0;i<routes.length;i++)
+            {
+                if(routes[i].getAttribute('href').endsWith("?type=1"))
+                    routes[i].setAttribute("href",routes[i].getAttribute('href')+"?type=1");
+            }
+        }
+        else if(showType)
+        {
+            setIframeSrc("index_list");
+        }
+    }
+    /**
+        * 获取url参数
+        */
+    function getUrlParams(paramsName) 
+    {
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?")
+        str=str.substr(num+1);
+
+        var arr=str.split("&"); //各个参数放到数组里
+            console.log(arr)
+        for(var i=0;i < arr.length;i++)
+        {
+            num=arr[i].indexOf("=");
+            if(num>0)
+            {
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                if(name == paramsName)
+                    return value;
+            }
+        } 
+        return "";
+    }
+    /**
+        * 修改面板宽度
+        */
+    function toggle()
+    {
+        var panel = document.getElementsByClassName("side");
+        panel = panel[0];
+        var width = panel.clientWidth;
+        var expendMenu = document.getElementById("expendMenu");
+        var right = document.getElementsByClassName("right");
+        right = right[0];
+        var rotate = "";
+        if(width == 230)
+        {
+            width = 50;
+            //控制图标旋转
+            rotate = "rotate(90deg)";
+        }
+        else
+        {
+            width = 230;
+            rotate = "rotate(0deg)";
+        }
+
+        //关闭所有已经展开的菜单
+        if(width ==50)
+        {
+            var subContainers = document.getElementsByClassName("sub_container");
+            for(var i = 0;i<subContainers.length;i++)
+            {
+                if(subContainers[i].clientHeight>0)
+                {
+                    toggoleSildMenu({currentTarget:subContainers[i].parentElement.children[0]});
+                }
+            }
+        }
+
+        //设置左侧面板高度
+        panel.style.width = width+"px";
+        right.style.width="calc( 100% - "+ width+"px )";
+
+        //设置菜单按钮
+        expendMenu.style.transform = rotate;
+        expendMenu.style["transition-duration"] = "0.5s";
+    }
+
+    /**
+     * 折叠展开左侧菜单
+     */
+    function toggoleSildMenu(event)
+    {
+        var panel = document.getElementsByClassName("side");
+        panel = panel[0];
+        var width = panel.clientWidth;
+
+        //折叠情况不让展开
+        if(width ==50)
+            return;
+            
+        var rootMenu = event.currentTarget;
+        var subContainer = rootMenu.parentElement.children[1];
+        var height = subContainer.clientHeight;
+        if(height>0)
+        {
+            subContainer.style.height = 0+"px";
+            rootMenu.style.backgroundColor="";
+
+            rootMenu.children[2].style.transform = "rotate(0deg)";
+            rootMenu.children[2].style.transitionDuration = "0.2s";
+        }
+        else
+        {
+            subContainer.style.height = subContainer.children.length*35+"px";
+            rootMenu.style.backgroundColor="#43759d";
+
+            rootMenu.children[2].style.transform = "rotate(180deg)";
+            rootMenu.children[2].style.transitionDuration = "0.2s";
+        }
+    }
+
+    /**
+        * 监控路由变化
+        */
+    function hashChanged(event)
+    {
+        init();
+        if(type)
+        {
+            setIframeSrc(event.newURL.split("#/")[1]);
+        }
+    }
+
+    /**
+     * 设置iframe 地址
+     */ 
+    function setIframeSrc(url)
+    {
+        url =  url.replace("#/","");
+        url = url.split("?")[0];
+        if(url.split("-").length>1)
+            url = "./"+url.split('-')[0]+"/"+url.split('-')[1]+".html";
+        else
+            url = "./"+url+".html";
+        var webElement = document.getElementById("web_loader");
+        webElement.src = url;
+    }
+
+    /**
+     * 显示下拉菜单
+     */
+    function showSubMenu(event)
+    {
+        var element = event.currentTarget;
+        element.style.backgroundColor = "#487EA5";
+        element.style.borderTop= "4px solid #d69e36";
+
+        var parentElement = element.parentElement;
+        var subMenu = parentElement.children[1];
+        subMenu.style.position = "absolute";
+        subMenu.style.top = 60+"px";
+        subMenu.style.left = (element.offsetLeft-200+element.clientWidth)+"px";
+        subMenu.style.zIndex = 9999;
+        subMenu.style.display="block";
+    }
+
+    /**
+     * 全局鼠标事件监听
+     */
+    function mouseDownEvent()
+    {
+        var navSubMenus =  document.getElementsByClassName("nav_sub_menu");
+        for(var i = 0;i<navSubMenus.length;i++)
+        {
+            navSubMenus[i].style.display="none";
+        }
+
+        var nav = document.getElementsByClassName("nav");
+        var menus = nav[0].getElementsByClassName("item");
+        for(var i = 0;i<menus.length;i++)
+        {
+            menus[i].style.backgroundColor = "";
+            menus[i].style.borderTop = "";
+        }
+    }
+</script>
 </html>
