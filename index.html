@@ -15,8 +15,8 @@
            margin:0;
            height: 100%;
            width: 100%;
+           overflow: hidden;
            min-width: 1000px;
-           min-height: 600px;
        }
        a{
            text-decoration: none;
@@ -33,6 +33,11 @@
         }
        .nav
        {
+            position:fixed; 
+            top:0;
+            left:0;
+            width:100%;
+            z-index:999;
            background-color:#3c8dbc;
            padding-left: 17px;
            height:60px;
@@ -108,6 +113,9 @@
        }
        .side
        {
+           position:fixed;
+           top:60px;
+           left:0px;
            width:230px;
            height:100%;
            display: inline-block;
@@ -145,14 +153,22 @@
            overflow: hidden;
             white-space: nowrap;
             height: 44px;
+            border-left:4px solid transparent;
        }
        .side .menu .root_menu .menu_item:hover
        {
-            background-color:#43759d
+            background-color:#43759d;
+            border-left:4px solid #3C6A8E;
+       }
+       .side .menu .root_menu .menu_item a
+       {
+           width:100%;
+           display: inline-block;
        }
        .side .menu .root_menu .icon
        {
            margin-right:12px;
+           width:16px;
        }
        .side .menu .root_menu .pull-right
        {
@@ -178,7 +194,8 @@
        }
        .side .menu .sub_menu:hover
        {
-            background-color:#487ea5
+            background-color:#487ea5;
+            border-left:4px solid #335875;
        }
        .side .menu .sub_menu a
        {
@@ -197,8 +214,10 @@
        }
        .right
        {
-        float:right;
-        width:calc(100% - 230px);
+           position: fixed;
+           top:60px;
+           left:230px;
+        width:100%;
         transition:width 0.2s;
         -moz-transition:width 0.2s;
         -webkit-transition:width 0.2s;
@@ -212,7 +231,6 @@
            height:100%;
            margin-top:0;
            min-width: 600px;
-           min-height: 400px;
            border:0;
            display: none;
        }
@@ -223,7 +241,6 @@
 
        #list_loader .title
        {
-           margin-top:40px;
            margin-bottom: 0;
            height:40px;
            line-height: 40px;
@@ -311,60 +328,68 @@
         <ul class ="menu">
             <li class="root_menu">
                 <div class="menu_item" onclick="toggoleSildMenu(event)">
-                    <span class="fa fa-building icon"></span>
-                    <span>基础</span>
-                    <span class="fa fa-angle-down pull-right"></span>
+                    <a href= "#base">
+                        <span class="fa fa-building icon"></span>
+                        <span>基础</span>
+                        <span class="fa fa-angle-down pull-right"></span>
+                    </a>
                 </div>
                 <ul class="sub_container">
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#base-load_cesium" class ="route"><span>Hello Cesium</span></a>
                     </li>
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#base-load_cesium2" class ="route"><span>去除所有控件</span></a>
                     </li>
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#base-load_cesium3" class ="route"><span>动态显示隐藏控件</span></a>
                     </li>
                 </ul>
             </li>
             <li class="root_menu">
                 <div class="menu_item" onclick="toggoleSildMenu(event)">
-                    <span class="fa fa-plane icon"></span>
-                    <span>模型</span>
-                    <span class="fa fa-angle-down pull-right"></span>
+                    <a href= "#model">
+                        <span class="fa fa-plane icon"></span>
+                        <span>模型</span>
+                        <span class="fa fa-angle-down pull-right"></span>
+                    </a>
                 </div>
                 <ul class="sub_container">
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#model-show" class ="route"><span>模型属性修改</span></a>
                     </li>
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#model-show_underline" class ="route"><span>地下模型</span></a>
                     </li>
                 </ul>
             </li>
             <li class="root_menu">
                 <div class="menu_item" onclick="toggoleSildMenu(event)">
-                    <span class="fa fa-database icon"></span>
-                    <span>数据源</span>
-                    <span class="fa fa-angle-down pull-right"></span>
+                    <a href= "#datasource">
+                        <span class="fa fa-database icon"></span>
+                        <span>数据源</span>
+                        <span class="fa fa-angle-down pull-right"></span>
+                    </a>
                 </div>
                 <ul class="sub_container">
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#datasource-geojson" class ="route"><span>GeoJSON</span></a>
                     </li>
-                    <li class="sub_menu">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
                         <a href="#datasource-topojson" class ="route"><span>TopoJSON</span></a>
                     </li>
                 </ul>
             </li>
             <li class="root_menu">
                 <div class="menu_item" onclick="toggoleSildMenu(event)">
-                    <span class="fa fa-paper-plane icon"></span>
-                    <span>路线</span>
-                    <span class="fa fa-angle-down pull-right"></span>
+                    <a href= "#fly">
+                        <span class="fa fa-paper-plane icon"></span>
+                        <span>路线</span>
+                        <span class="fa fa-angle-down pull-right"></span>
+                    </a>
                 </div>
                 <ul class="sub_container">
-                    <li class="sub_menu">
+                    <li class="sub_menu"onclick="sildMenuItemClick(event)" >
                         <a href="#fly-fly" class ="route"><span>飞行</span></a>
                     </li>
                 </ul>
@@ -376,25 +401,27 @@
         <iframe id ="web_loader" src=""></iframe>
         <ul id = "list_loader">
             <li>
-                <h3 class="title" name="base"><i class="fa fa-building"></i>&nbsp;&nbsp;基础</h3>
+                <a name="base"> </a>
+                <h3 class="title"><i class="fa fa-building"></i>&nbsp;&nbsp;基础</h3>
                 <div class ="content">
                     <div class="sub_title">Hello World</div>
+                    <a name="base-load_cesium"> </a>
                     <div class="cart">
-                        <a href ="./index.html#base-load_cesium?type=1" name="base-load_cesium" target="_blank">
+                        <a href ="./index.html#base-load_cesium?type=1" target="_blank">
                             <span class="des">Hello Cesium</span>
                             <img class="img" src="./assets/thumb/hello_world.jpg" >
                         </a>
                     </div>
-
+                    <a name="base-load_cesium2"> </a>
                     <div class="cart">
-                        <a href ="./index.html#base-load_cesium2?type=1" name="base-load_cesium2" target="_blank">
+                        <a href ="./index.html#base-load_cesium2?type=1" target="_blank">
                             <span class="des">去除所有控件</span>
                             <img class="img" src="./assets/thumb/no_controller.png" >
                         </a>
                     </div>
-
+                    <a name="base-load_cesium3"> </a>
                     <div class="cart">
-                        <a href ="./index.html#base-load_cesium3?type=1" name="base-load_cesium3" target="_blank">
+                        <a href ="./index.html#base-load_cesium3?type=1" target="_blank">
                             <span class="des">动态显示隐藏控件</span>
                             <img class="img" src="./assets/thumb/dynamic_controller.png" >
                         </a>
@@ -402,18 +429,20 @@
                 </div>
             </li>
             <li>
-                <h3 class="title" name="model"><i class="fa fa-plane"></i>&nbsp;&nbsp;模型</h3>
+                <a name="model"> </a>
+                <h3 class="title"><i class="fa fa-plane"></i>&nbsp;&nbsp;模型</h3>
                 <div class ="content">
                     <div class="sub_title">模型基础操作</div>
+                    <a name="model-show"> </a>
                     <div class="cart">
-                        <a href ="./index.html#model-show?type=1" name="model-show" target="_blank">
+                        <a href ="./index.html#model-show?type=1" target="_blank">
                             <span class="des">模型属性修改</span>
                             <img class="img" src="./assets/thumb/model_show.png" >
                         </a>
                     </div>
-
+                    <a name="model-show_underline"> </a>
                     <div class="cart">
-                        <a href ="./index.html#model-show_underline?type=1" name="model-show_underline" target="_blank">
+                        <a href ="./index.html#model-show_underline?type=1" target="_blank">
                             <span class="des">地下模型</span>
                             <img class="img" src="./assets/thumb/model_show_underline.png" >
                         </a>
@@ -421,18 +450,20 @@
                 </div>
             </li>
             <li>
-                <h3 class="title" name="datasource"><i class="fa fa-database"></i>&nbsp;&nbsp;数据源</h3>
+                <a name="datasource"> </a>
+                <h3 class="title"><i class="fa fa-database"></i>&nbsp;&nbsp;数据源</h3>
                 <div class ="content">
                     <div class="sub_title">JSON数据源</div>
+                    <a name="datasource-geojson"> </a>
                     <div class="cart">
-                        <a href ="./index.html#datasource-geojson?type=1" name="datasource-geojson" target="_blank">
+                        <a href ="./index.html#datasource-geojson?type=1"target="_blank">
                             <span class="des">Geo JSON</span>
                             <img class="img" src="./assets/thumb/datasource_geojson.png" >
                         </a>
                     </div>
-
+                    <a name="datasource-topojson"> </a>
                     <div class="cart">
-                        <a href ="./index.html#datasource-topojson?type=1" name="datasource-topojson" target="_blank">
+                        <a href ="./index.html#datasource-topojson?type=1" target="_blank">
                             <span class="des">Topo JSON</span>
                             <img class="img" src="./assets/thumb/datasource_topojson.png" >
                         </a>
@@ -440,11 +471,13 @@
                 </div>
             </li>
             <li>
-                <h3 class="title" name="fly"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;路线</h3>
+                <a name="fly"> </a>
+                <h3 class="title"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;路线</h3>
                 <div class ="content">
                     <div class="sub_title">飞行</div>
+                    <a name="fly-fly"> </a>
                     <div class="cart" >
-                        <a href ="./index.html#fly-fly?type=1" target="_blank" name="fly-fly">
+                        <a href ="./index.html#fly-fly?type=1" target="_blank">
                             <span class="des">飞行</span>
                             <img class="img" src="./assets/thumb/fly_fly.png" >
                         </a>
@@ -461,6 +494,19 @@
      * 初始化
      */
     function init()
+    {
+        //加载当前选择demo
+        loadFrame();
+
+        //默认展开左侧菜单
+        initSideMenuStatus();
+    }
+    /**
+     * 加载页面展示方式，是展示iframe 还是 list
+     * 动态设置iframe src
+     * 动态修改标题
+     */
+    function loadFrame()
     {
         //判断是列表模式还是演示模式，列表模式隐藏iframe,演示模式隐藏列表容器
         var type = getUrlParams("type");
@@ -564,7 +610,7 @@
 
         //设置左侧面板高度
         panel.style.width = width+"px";
-        right.style.width="calc( 100% - "+ width+"px )";
+        right.style.left=width+"px";
 
         //设置菜单按钮
         expendMenu.style.transform = rotate;
@@ -583,7 +629,7 @@
         //折叠情况不让展开
         if(width ==50)
             return;
-            
+        
         var rootMenu = event.currentTarget;
         var subContainer = rootMenu.parentElement.children[1];
         var height = subContainer.clientHeight;
@@ -591,18 +637,73 @@
         {
             subContainer.style.height = 0+"px";
             rootMenu.style.backgroundColor="";
+            rootMenu.style.borderLeft="";
 
-            rootMenu.children[2].style.transform = "rotate(0deg)";
-            rootMenu.children[2].style.transitionDuration = "0.2s";
+            rootMenu.children[0].children[2].style.transform = "rotate(0deg)";
+            rootMenu.children[0].children[2].style.transitionDuration = "0.2s";
         }
         else
         {
+            var leftMenuItems = document.getElementsByClassName("menu_item");
+            for(var i = 0;i<leftMenuItems.length;i++)
+            {
+                if(leftMenuItems[i] != event.rootMenu)
+                {
+                    var subContainerTemp = leftMenuItems[i].parentElement.children[1];
+                    var heightTemp = subContainerTemp.clientHeight;
+                    if(heightTemp>0)
+                    {
+                        //去除背景颜色，左边框颜色，展开效果
+                        subContainerTemp.style.height = 0+"px";
+                        leftMenuItems[i].style.backgroundColor="";
+                        leftMenuItems[i].style.borderLeft="";
+
+                        leftMenuItems[i].children[0].children[2].style.transform = "rotate(0deg)";
+                        leftMenuItems[i].children[0].children[2].style.transitionDuration = "0.2s";
+
+                        //判断 子项是否有选中，有选择则取消选中
+                        var subContainerLis = subContainerTemp.getElementsByTagName("li");
+                        for(var j = 0;j<subContainerLis.length;j++)
+                        {
+                            if(subContainerLis[j].style.backgroundColor)
+                            {
+                                subContainerLis[j].style.backgroundColor = "";
+                                subContainerLis[j].style.borderLeft="";
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
             subContainer.style.height = subContainer.children.length*35+"px";
             rootMenu.style.backgroundColor="#43759d";
+            rootMenu.style.borderLeft="4px solid #3C6A8E";
 
-            rootMenu.children[2].style.transform = "rotate(180deg)";
-            rootMenu.children[2].style.transitionDuration = "0.2s";
+            rootMenu.children[0].children[2].style.transform = "rotate(180deg)";
+            rootMenu.children[0].children[2].style.transitionDuration = "0.2s";
         }
+    }
+
+    /**
+     * 左侧子菜单点击效果
+     */
+    function sildMenuItemClick(event)
+    {
+        var menuItem = event.currentTarget;
+        var items = menuItem.parentElement.children;
+        for(var i = 0;i<items.length;i++)
+        {
+            if(items[i] !=menuItem)
+            {
+                items[i].style.backgroundColor="";
+                items[i].style.borderLeft="";
+            }
+        }
+
+        menuItem.style.backgroundColor="#487ea5";
+        menuItem.style.borderLeft="4px solid #335875";
     }
 
     /**
@@ -610,7 +711,7 @@
         */
     function hashChanged(event)
     {
-        init();
+        loadFrame();
         if(type)
         {
             setIframeSrc(event.newURL.split("#")[1]);
@@ -682,9 +783,46 @@
         var routes = document.getElementsByClassName("route");
         for(var i = 0;i<routes.length;i++)
         {
+            //判断当前路由和菜单路由相同，则设置该文本为title
             if(routes[i].hash.split("?")[0]==url)
             {
                 document.title= routes[i].innerText;
+            }
+        }
+    }
+
+    /**
+     * 根据当前路由，初始化展开左侧菜单
+     */
+    function initSideMenuStatus()
+    {
+        var selectMenu = window.location.hash;
+        selectMenu = selectMenu.split("?")[0];
+        var selectMenus = selectMenu.split("-");
+        var leftMenuItems = document.getElementsByClassName("menu_item");
+        for(var i = 0;i<leftMenuItems.length;i++)
+        {
+            //判断路由是否等于当前路由
+            if(leftMenuItems[i].children[0].hash ==selectMenus[0])
+            {
+                //展开一级菜单
+                toggoleSildMenu({currentTarget:leftMenuItems[i]});
+
+                if(selectMenus.length>1)
+                {
+                    var subContainerTemp = leftMenuItems[i].parentElement.children[1];
+                    var subContainerLis = subContainerTemp.getElementsByTagName("li");
+                    for(var j = 0;j<subContainerLis.length;j++)
+                    {
+                        if(subContainerLis[j].children[0].hash ==selectMenu)
+                        {
+                            //展开子项
+                            sildMenuItemClick({currentTarget:subContainerLis[j]});
+                            break;
+                        }
+                    }
+                }
+                break;
             }
         }
     }
