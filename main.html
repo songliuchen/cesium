@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cesium Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cesiumjs.org/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://cesiumjs.org/favicon.ico" type="image/x-icon"/>
+    <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
+    <style>
+       html,body
+       {
+           padding:0;
+           margin:0;
+           height: 100%;
+           width: 100%;
+           overflow: hidden;
+           min-width: 1000px;
+       }
+       a{
+           text-decoration: none;
+           color:white;
+       }
+       ul
+       {
+           margin:0px;
+           padding:0px;
+       }
+       li
+       {
+           list-style-type:none;
+        }
+       .nav
+       {
+            position:fixed; 
+            top:0;
+            left:0;
+            width:100%;
+            z-index:999;
+           background-color:rgba(38, 38, 38, 0.75);
+           line-height: 60px;
+           height:60px;
+       }
+
+       .nav a
+       {
+           margin-left:100px;
+       }
+       .nav .title
+       {
+           display: inline-block;
+           color: #fff;
+           font-size: 30px;
+       }
+
+       #cesium_container
+       {
+        width:100%;
+        height:100%;
+       }
+
+       .cesium-viewer-toolbar
+       {
+           top:70px;
+       }
+
+       .status_bar
+       {
+        font-size: 12px;
+        height: 2em;
+        line-height: 2em;
+        min-width: 900px;
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        z-index: 20;
+        background: rgba(38, 38, 38, 0.75);
+        color: #fff;
+       }
+
+       .status_bar .location
+       {
+           float:right;
+       }
+       .status_bar .location label
+       {
+           margin-right: 10px;
+       }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href = "./main.html">
+            <div class="title">
+                Cesium 示例
+            </div>
+        </a>
+    </div>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <div class= "status_bar">
+        <span>Copyright © 2019</span>
+        <span class="location">
+            <label id="coordinate_location">纬度：4°14’15.4369”N&nbsp;经度:-19°-21’-50.5058”E</label>
+            <label id="coordinate_height">海拔: -4259米</label>
+            <label id="coordinate_cameraheight">视角海拨高度: 20729918米</label>
+        </span>
+    </div>
+</body>
+<script>
+    var mViewer = new Cesium.Viewer('cesium_container',{
+        animation: false,        //是否创建动画小器件，左下角仪表
+        timeline: false,         //是否显示时间线控件
+        geocoder: false,         //是否显示地名查找控件
+        baseLayerPicker: true,  //是否显示图层选择控件
+        shadows: false,// 阴影是否被太阳投射
+        shouldAnimate:true,
+        fullscreenButton:false
+    });
+    mViewer.cesiumWidget.creditContainer.style.display = "none";
+</script>
+</html>
