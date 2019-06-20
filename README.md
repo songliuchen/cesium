@@ -5,7 +5,7 @@ cesium 学习过程中，资料整理
 演示效果直接下载代码后账访问index.html 文件即可，ip方式访问可通过VS Code+Live Server 插件或通过HBuilder 运行 即可预览效果  
   
 效果图1  
-![效果图1](/assets/readme/demo1.mov)  
+![效果图1](/assets/readme/demo1.gif)  
 - [示例集合](https://songliuchen.github.io/cesium)  
 - [加载地图](https://songliuchen.github.io/cesium/base/load_cesium.html)    
 - [去除隐藏所有控件：包含控制飞行控件、刻度线、Cesium Logo 和水印、右上角操作按钮、全屏按钮是否显示](https://songliuchen.github.io/cesium/base/load_cesium2.html) 
