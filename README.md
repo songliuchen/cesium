@@ -3,7 +3,7 @@ cesium 学习过程中，资料整理
 [脑图](http://naotu.baidu.com/file/1bb0734b72b6f7efb888a93a2cb642ce)  
 ## Cesium DEMO集合（完善中）
 效果图1  
-![效果图1](/assets/readme/demo.png = 300px)  
+![效果图1](/assets/readme/demo.png =100)  
 - [示例集合](https://songliuchen.github.io/cesium)  
 - [加载地图](https://songliuchen.github.io/cesium/base/load_cesium.html)    
 - [初始化去除隐藏所有控件：包含控制飞行控件、刻度线、Cesium Logo 和水印、右上角操作按钮、右下角全屏按钮是否显示](https://songliuchen.github.io/cesium/base/load_cesium2.html) 
