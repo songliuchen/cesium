@@ -2,7 +2,8 @@ cesium 学习过程中，资料整理
 ## Cesium 脑图（完善中）
 [脑图](http://naotu.baidu.com/file/1bb0734b72b6f7efb888a93a2cb642ce)  
 ## Cesium DEMO集合（完善中）
-- 演示效果直接下载代码后账访问index.html 文件即可，ip方式访问可通过VS Code+Live Server 插件或通过HBuilder 运行 即可预览效果
+演示效果直接下载代码后账访问index.html 文件即可，ip方式访问可通过VS Code+Live Server 插件或通过HBuilder 运行 即可预览效果  
+  
 效果图1  
 ![效果图1](/assets/readme/demo.png)  
 - [示例集合](https://songliuchen.github.io/cesium)  
