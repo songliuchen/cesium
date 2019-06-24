@@ -217,13 +217,13 @@
            position: fixed;
            top:60px;
            left:230px;
-        width:100%;
-        transition:width 0.2s;
-        -moz-transition:width 0.2s;
-        -webkit-transition:width 0.2s;
-        -o-transition:width 0.2s;
-        overflow-y: scroll;
-        height: 100%;
+           width: calc(100% - 230px);
+            transition:width 0.2s;
+            -moz-transition:width 0.2s;
+            -webkit-transition:width 0.2s;
+            -o-transition:width 0.2s;
+            overflow-y: scroll;
+            height: calc(100% - 60px);
        }
        #web_loader
        {
@@ -385,15 +385,21 @@
             </li>
             <li class="root_menu">
                 <div class="menu_item" onclick="toggoleSildMenu(event)">
-                    <a href= "#fly">
-                        <span class="fa fa-paper-plane icon"></span>
-                        <span>路线</span>
+                    <a href= "#3dtiles">
+                        <span class="fa fa-delicious icon"></span>
+                        <span>3DTiles</span>
                         <span class="fa fa-angle-down pull-right"></span>
                     </a>
                 </div>
                 <ul class="sub_container">
                     <li class="sub_menu"onclick="sildMenuItemClick(event)" >
-                        <a href="#fly-fly" class ="route"><span>飞行</span></a>
+                        <a href="#3dtiles-load_3dtiles" class ="route"><span>加载黄浦江</span></a>
+                    </li>
+                    <li class="sub_menu"onclick="sildMenuItemClick(event)" >
+                        <a href="#3dtiles-load_3dtiles2" class ="route"><span>加载工厂模型</span></a>
+                    </li>
+                    <li class="sub_menu"onclick="sildMenuItemClick(event)" >
+                        <a href="#3dtiles-load_point_cloud" class ="route"><span>点云数据</span></a>
                     </li>
                 </ul>
             </li>
@@ -483,6 +489,34 @@
                         <a href ="./index.html#fly-fly?type=1" target="_blank">
                             <span class="des">飞行</span>
                             <img class="img" src="./assets/thumb/fly_fly.png" >
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a name="3dtiles"> </a>
+                <h3 class="title"><i class="fa fa-delicious"></i>&nbsp;&nbsp;3DTiles</h3>
+                <div class ="content">
+                    <div class="sub_title">局部数据加载</div>
+                    <a name="3dtiles-load_3dtiles"> </a>
+                    <div class="cart">
+                        <a href ="./index.html#3dtiles-load_3dtiles?type=1"target="_blank">
+                            <span class="des">黄浦江数据</span>
+                            <img class="img" src="./assets/thumb/3dtiles-load_3dtiles.png" >
+                        </a>
+                    </div>
+                    <a name="3dtiles-load_3dtiles2"> </a>
+                    <div class="cart">
+                        <a href ="./index.html#3dtiles-load_3dtiles2?type=1" target="_blank">
+                            <span class="des">工厂数据</span>
+                            <img class="img" src="./assets/thumb/3dtiles-load_3dtiles2.png" >
+                        </a>
+                    </div>
+                    <a name="3dtiles-load_point_cloud"> </a>
+                    <div class="cart">
+                        <a href ="./index.html#3dtiles-load_point_cloud?type=1" target="_blank">
+                            <span class="des">点云数据</span>
+                            <img class="img" src="./assets/thumb/3dtiles-load_point_cloud.png" >
                         </a>
                     </div>
                 </div>
@@ -614,7 +648,8 @@
         //设置左侧面板高度
         panel.style.width = width+"px";
         right.style.left=width+"px";
-
+        right.style.width="calc( 100% - "+width+"px )";
+        debugger;
         //设置菜单按钮
         expendMenu.style.transform = rotate;
         expendMenu.style["transition-duration"] = "0.5s";
@@ -817,7 +852,7 @@
                     var subContainerLis = subContainerTemp.getElementsByTagName("li");
                     for(var j = 0;j<subContainerLis.length;j++)
                     {
-                        if(subContainerLis[j].children[0].hash ==selectMenu)
+                        if(subContainerLis[j].children[0].hash.split("?")[0] ==selectMenu)
                         {
                             //展开子项
                             sildMenuItemClick({currentTarget:subContainerLis[j]});

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="https://cesiumjs.org/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="https://cesiumjs.org/favicon.ico" type="image/x-icon"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
     <style>
@@ -43,15 +44,19 @@
            height:60px;
        }
 
-       .nav a
+       .nav .title
        {
            margin-left:100px;
        }
-       .nav .title
+       .nav .title div
        {
            display: inline-block;
            color: #fff;
            font-size: 30px;
+       }
+       .nav .menu
+       {
+           float:right;
        }
 
        #cesium_container
@@ -92,11 +97,14 @@
 </head>
 <body>
     <div class="nav">
-        <a href = "./main.html">
-            <div class="title">
+        <a class="title" href = "./main.html">
+            <div>
                 Cesium 示例
             </div>
         </a>
+        <span class="menu">
+            <a></a>
+        </span>
     </div>
     <div id = "cesium_container" style="width:100%;height:100%;">
     </div>

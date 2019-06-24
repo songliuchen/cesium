@@ -25,23 +25,12 @@
             terrainProvider: Cesium.createWorldTerrain()
         });
         mViewer.scene.globe.depthTestAgainstTerrain = false;
-        var initialPosition = Cesium.Cartesian3.fromDegrees(121.234249, 30.961029, 10);
-        var initialOrientation = new Cesium.HeadingPitchRoll.fromDegrees(100.27879878293835, -100.34390550872461, 0.0716951918898415);
-        mViewer.scene.camera.setView({
-            destination: initialPosition,
-            orientation: {
-                heading: 6.116051,
-                pitch: -0.275007,
-                roll: 6.283185
-            },
-            endTransform: Cesium.Matrix4.IDENTITY
+        var tileset = mViewer.scene.primitives.add(new Cesium.Cesium3DTileset({ url: "../data/gongchang/Production_3.json" }));
+        tileset.readyPromise.then(function(tileset)
+        {
+            mViewer.camera.viewBoundingSphere(tileset.boundingSphere, new Cesium.HeadingPitchRange(0, -0.5, 0));
+            mViewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
         });
-
-        var tileset = new Cesium.Cesium3DTileset({ url: "../assets/cesium/3dtities/huangpujiang/tileset.json" });
-        mViewer.scene.primitives.add(tileset);
-
-        mViewer.trackedEntity = undefined;
-        mViewer.zoomTo(mViewer.entities, new Cesium.HeadingPitchRange(Cesium.Math.toRadians(-90), Cesium.Math.toRadians(-15), 7500));
     </script>
 </body>
 </html>
