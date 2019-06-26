@@ -306,9 +306,9 @@
                 Cesium Demo
             </div>
         </a>
-        <div class ="menu">
+        <!-- <div class ="menu">
             <a href='https://github.com/songliuchen/cesium' target="_blank"><div class="item">下载</div></a>
-        </div>
+        </div> -->
         <div class ="menu">
             <div class="item" onclick="showSubMenu(event)"><span>展示方式&nbsp;&nbsp;</span><span class="fa fa-sort-down"></span></div>
             <ul class="sub_menu nav_sub_menu">
@@ -385,6 +385,20 @@
             </li>
             <li class="root_menu">
                 <div class="menu_item" onclick="toggoleSildMenu(event)">
+                    <a href= "#fly">
+                        <span class="fa fa-paper-plane icon"></span>
+                        <span>路线</span>
+                        <span class="fa fa-angle-down pull-right"></span>
+                    </a>
+                </div>
+                <ul class="sub_container">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
+                        <a href="#fly-fly" class ="route"><span>飞行</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="root_menu">
+                <div class="menu_item" onclick="toggoleSildMenu(event)">
                     <a href= "#3dtiles">
                         <span class="fa fa-delicious icon"></span>
                         <span>3DTiles</span>
@@ -393,13 +407,30 @@
                 </div>
                 <ul class="sub_container">
                     <li class="sub_menu"onclick="sildMenuItemClick(event)" >
-                        <a href="#3dtiles-load_3dtiles" class ="route"><span>加载黄浦江</span></a>
+                        <a href="#3dtiles-load_3dtiles" class ="route"><span>加载黄浦江数据</span></a>
                     </li>
                     <li class="sub_menu"onclick="sildMenuItemClick(event)" >
-                        <a href="#3dtiles-load_3dtiles2" class ="route"><span>加载工厂模型</span></a>
+                        <a href="#3dtiles-load_3dtiles2" class ="route"><span>加载工厂数据</span></a>
                     </li>
                     <li class="sub_menu"onclick="sildMenuItemClick(event)" >
-                        <a href="#3dtiles-load_point_cloud" class ="route"><span>点云数据</span></a>
+                        <a href="#3dtiles-load_official" class ="route"><span>加载小区数据</span></a>
+                    </li>
+                    <li class="sub_menu"onclick="sildMenuItemClick(event)" >
+                        <a href="#3dtiles-load_point_cloud" class ="route"><span>加载点云数据</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="root_menu">
+                <div class="menu_item" onclick="toggoleSildMenu(event)">
+                    <a href= "#tools">
+                        <span class="fa fa-briefcase icon"></span>
+                        <span>工具</span>
+                        <span class="fa fa-angle-down pull-right"></span>
+                    </a>
+                </div>
+                <ul class="sub_container">
+                    <li class="sub_menu" onclick="sildMenuItemClick(event)">
+                        <a href="#tools-3dtiles_download" class ="route"><span>爬取网络3DTiles数据</span></a>
                     </li>
                 </ul>
             </li>
@@ -501,22 +532,43 @@
                     <a name="3dtiles-load_3dtiles"> </a>
                     <div class="cart">
                         <a href ="./index.html#3dtiles-load_3dtiles?type=1"target="_blank">
-                            <span class="des">黄浦江数据</span>
+                            <span class="des">加载黄浦江数据</span>
                             <img class="img" src="./assets/thumb/3dtiles-load_3dtiles.png" >
                         </a>
                     </div>
                     <a name="3dtiles-load_3dtiles2"> </a>
                     <div class="cart">
                         <a href ="./index.html#3dtiles-load_3dtiles2?type=1" target="_blank">
-                            <span class="des">工厂数据</span>
+                            <span class="des">加载工厂数据</span>
                             <img class="img" src="./assets/thumb/3dtiles-load_3dtiles2.png" >
+                        </a>
+                    </div>
+                    <a name="3dtiles-load_official"> </a>
+                    <div class="cart">
+                        <a href ="./index.html#3dtiles-load_official?type=1" target="_blank">
+                            <span class="des">加载小区数据</span>
+                            <img class="img" src="./assets/thumb/3dtiles-load_official.png" >
                         </a>
                     </div>
                     <a name="3dtiles-load_point_cloud"> </a>
                     <div class="cart">
                         <a href ="./index.html#3dtiles-load_point_cloud?type=1" target="_blank">
-                            <span class="des">点云数据</span>
+                            <span class="des">加载点云数据</span>
                             <img class="img" src="./assets/thumb/3dtiles-load_point_cloud.png" >
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a name="tools"> </a>
+                <h3 class="title"><i class="fa fa-briefcase"></i>&nbsp;&nbsp;工具</h3>
+                <div class ="content">
+                    <div class="sub_title">爬虫</div>
+                    <a name="tools-3dtiles_download"> </a>
+                    <div class="cart" >
+                        <a href ="./tools/3dtiles_download.py" target="_blank">
+                            <span class="des">爬取网络3DTiles数据</span>
+                            <img class="img" src="./assets/thumb/tools-3dtiles_download.png" >
                         </a>
                     </div>
                 </div>
