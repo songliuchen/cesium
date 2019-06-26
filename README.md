@@ -1,7 +1,7 @@
-cesium demo，cesium 研究过程中资料整理，包括：
-1、示例，提供常规的cesium示例以及综合性的业务示例
-2、工具，整理研究过程中写的一些数据获取、处理、分析的工具，例如网络3dtiles数据爬取工具
-
+cesium demo，cesium 研究过程中资料整理，包括：  
+1、示例，提供常规的cesium示例以及综合性的业务示例  
+2、工具，整理研究过程中写的一些数据获取、处理、分析的工具，例如网络3dtiles数据爬取工具  
+  
 ## Cesium 脑图（完善中）
 [脑图](http://naotu.baidu.com/file/1bb0734b72b6f7efb888a93a2cb642ce)  
 ## Cesium DEMO集合（完善中）
