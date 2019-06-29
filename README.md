@@ -25,7 +25,8 @@ cesium demo，cesium 研究过程中资料整理，包括：
 - [3DTiles：加载点云数据](http://129.211.11.95/cesium/3dtiles/load_point_cloud.html)  
 - [工具：爬取网络3DTiles数据](http://129.211.11.95/cesium/tools/3dtiles_download.py)  
 
-##  在线3DTiles数据爬取工具  
+##  cesium 工具整理
+- 在线3DTiles数据爬取工具  
  ```
 1、使用python3.7版本编写  
 2、默认需要修改两个地方： 
@@ -43,7 +44,7 @@ cesium demo，cesium 研究过程中资料整理，包括：
     4）、缺少日志本地存储功能
  ```
 
-## cesium 研究插件整理
+## cesium 插件整理
 -  汉化插件，针对界面可视化部分进行汉化  
  ```
 cesium 可视化部分的中文汉化，包含内容如下：
