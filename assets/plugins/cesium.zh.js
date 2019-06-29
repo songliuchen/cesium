@@ -255,6 +255,10 @@ var CesiumZh=(function (){
                 else if(texts.length == 2)
                 {
                     datedes[i].children[0].innerHTML = texts[0]+"标准时间";
+                    datedes[i].addEventListener('DOMNodeInserted',function(e){
+                        e = e || event;
+                        e.target.nodeValue = e.target.nodeValue.split(" ")[0]+"标准时间";
+                    });
                 }
             }
         }

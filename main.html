@@ -9,7 +9,7 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cesiumjs.org/releases/1.57/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <script src="https://cesiumjs.org/releases/1.57/Build/Cesium/Cesium.js"></script>
-    <script src="./plugins/cesium.zh.js"></script>
+    <script src="./assets/plugins/cesium.zh.js"></script>
     <style>
        html,body
        {
@@ -120,15 +120,15 @@
 </body>
 <script>
     var mViewer = new Cesium.Viewer('cesium_container',{
-        // animation: false,        //是否创建动画小器件，左下角仪表
-        // timeline: false,         //是否显示时间线控件
-        // geocoder: true,         //是否显示地名查找控件
-        // baseLayerPicker: true,  //是否显示图层选择控件
-        // shadows: false,// 阴影是否被太阳投射
-        // shouldAnimate:true,
-        // fullscreenButton:false
+        animation: false,        //是否创建动画小器件，左下角仪表
+        timeline: false,         //是否显示时间线控件
+        geocoder: true,         //是否显示地名查找控件
+        baseLayerPicker: true,  //是否显示图层选择控件
+        shadows: false,// 阴影是否被太阳投射
+        shouldAnimate:true,
+        fullscreenButton:false
     });
-    // mViewer.cesiumWidget.creditContainer.style.display = "none";
+    mViewer.cesiumWidget.creditContainer.style.display = "none";
     CesiumZh.load();
 </script>
 </html>
