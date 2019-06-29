@@ -44,7 +44,8 @@ var CesiumZh=(function (){
         var titles={
             "Enter an address or landmark...":"请输入搜索地址...",
             "View Home":"初始视图",
-            "Columbus View":"平面视图",
+            "Columbus View":"二维水平视图",
+            "2D":"二维垂直视图",
             "3D":"三维视图",
             "Navigation Instructions":"帮助"
         }
@@ -54,6 +55,7 @@ var CesiumZh=(function (){
 
         //模式切换鼠标滑过提示
         updateAttributeByEvent(document,titles,"cesium-sceneModePicker-button3D","title","onmouseover");
+        updateAttribute(document,titles,"cesium-sceneModePicker-dropDown-icon","title");
 
         //初始视图
         updateAttribute(document,titles,"cesium-home-button","title");
