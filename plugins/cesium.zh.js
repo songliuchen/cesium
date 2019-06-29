@@ -25,6 +25,8 @@ var CesiumZh=(function (){
         loadToolBarHelp();
         //全屏汉化
         loadFullExtent();
+        //加载动画控件
+        loadFlyController();
     }
 
     /**
@@ -201,6 +203,107 @@ var CesiumZh=(function (){
     }
 
     /**
+     * 动画控件汉化
+     */
+    function loadFlyController()
+    {
+        var titles = {
+            "Today (real-time)":"今天（实际时间）",
+            "Play Reverse":"逆时针播放",
+            "Play Forward":"顺时针播放",
+            "Pause":"暂停",
+            "cesium_description":"此应用程序使用Cesium的默认令牌访问。 在进行任何Cesium API调用之前，请使用您的帐户为Cesium.Ion.defaultAccessToken分配访问令牌。 您可以注册免费的Cesium帐户",
+            "Data attribution":"数据归属"
+        }
+
+        var dateMap={
+            "Jan":"1月",
+            "Feb":"2月",
+            "Mar":"3月",
+            "Apr":"4月",
+            "May":"5月",
+            "Jun":"6月",
+            "Jul":"7月",
+            "Aug":"8月",
+            "Sep":"9月",
+            "Oct":"10月",
+            "Nov":"11月",
+            "Dec":"12月",
+        }
+        var parentContainer = document.getElementsByClassName("cesium-viewer-animationContainer");
+        if(parentContainer.length>0)
+        {
+            parentContainer = parentContainer[0];
+            updateHtmlByTagName(parentContainer,titles,"title");
+
+            var  datedes =parentContainer.getElementsByClassName("cesium-animation-svgText");
+            for(var i = 0;i<datedes.length;i++)
+            {
+                var text = datedes[i].children[0].innerHTML;
+                var texts = text.split(" ");
+                if(texts.length == 3)
+                {
+                    datedes[i].children[0].innerHTML = texts[2]+"年"+dateMap[texts[0]]+texts[1]+"日";
+                }
+                else if(texts.length == 2)
+                {
+                    datedes[i].children[0].innerHTML = texts[0]+"标准时间";
+                }
+            }
+        }
+
+        //修改底部描述
+        var cesiumDescription = document.getElementsByClassName("cesium-credit-textContainer");
+        if(cesiumDescription.length>0)
+        {
+            var insertEvent = function(e)
+            {
+                e = e || event;
+                cesiumDescription[0].removeEventListener("DOMNodeInserted",insertEvent);
+
+                if(cesiumDescription[0].children.length>0 && cesiumDescription[0].children[0].children.length>0)
+                    cesiumDescription[0].children[0].children[0].innerHTML = titles["cesium_description"];
+            };
+            cesiumDescription[0].addEventListener('DOMNodeInserted',insertEvent);
+        }
+
+        //数据归属
+        updateHtml(document,titles,"cesium-credit-expand-link");
+
+        var timeLineBar = document.getElementsByClassName("cesium-timeline-bar");
+        if(timeLineBar.length>0)
+        {
+            timeLineBar = timeLineBar[0];
+            timeLineBar.addEventListener('DOMNodeInserted',function(e)
+            {
+                e = e || event;
+                if(e.target.nodeType == 3)
+                    return;
+                if(e.target.getAttribute("class") == "cesium-timeline-ticLabel")
+                {
+                    var texts = e.target.innerHTML.split(" ");
+                    if(texts.length>3)
+                    {
+                        var resultText = texts[2]+"年"+dateMap[texts[0]]+texts[1]+"日 "+texts[3]+"";
+                        e.target.innerHTML = resultText;
+                    }
+                }
+            });
+
+            var labels = timeLineBar.getElementsByClassName("cesium-timeline-ticLabel");
+            for(var i = 0;i<labels.length;i++)
+            {
+                var texts = labels[i].innerHTML.split(" ");
+                if(texts.length>3)
+                {
+                    var resultText = texts[2]+"年"+dateMap[texts[0]]+texts[1]+"日 "+texts[3]+"";
+                    labels[i].innerHTML = resultText;
+                }
+            }
+        }
+    }
+
+    /**
      * 更新dom innerHtml
      * @param {*} parent 父容器对象
      * @param {*} map 汉化对象
@@ -212,6 +315,25 @@ var CesiumZh=(function (){
             parent = document;
         
         var doms = parent.getElementsByClassName(className);
+        for(var i = 0;i<doms.length;i++)
+        {
+            if(map[doms[i].innerHTML])
+                doms[i].innerHTML = map[doms[i].innerHTML];
+        }  
+    }
+
+    /**
+     * 更新dom innerHtml
+     * @param {*} parent 父容器对象
+     * @param {*} map 汉化对象
+     * @param {*} tagName 标签名称
+     */
+    function updateHtmlByTagName(parent,map,tagName)
+    {
+        if(!parent)
+            parent = document;
+        
+        var doms = parent.getElementsByTagName(tagName);
         for(var i = 0;i<doms.length;i++)
         {
             if(map[doms[i].innerHTML])
