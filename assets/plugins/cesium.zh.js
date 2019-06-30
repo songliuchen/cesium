@@ -16,61 +16,24 @@ var CesiumZh=(function (){
      */
     function load()
     {
+        //工具条汉化
         loadToolbar();
-    }
-
-    /**
-     * 工具条汉化
-     */
-    function loadToolbar()
-    {
-        //工具条鼠标悬浮提示汉化
-        loadToolBarTitle();
-        //图层选择汉化
-        loadBaseLayerPickerOfToolbar();
-        //帮助面板汉化
-        loadToolBarHelp();
         //全屏汉化
         loadFullExtent();
         //加载动画控件
         loadFlyController();
     }
 
-    /**
-     * 工具条鼠标悬浮提示汉化
-     */
-    function loadToolBarTitle()
+    function getChineseMaps()
     {
-        var titles={
+        return {
             "Enter an address or landmark...":"请输入搜索地址...",
             "View Home":"初始视图",
             "Columbus View":"二维水平视图",
             "2D":"二维垂直视图",
             "3D":"三维视图",
-            "Navigation Instructions":"帮助"
-        }
-
-        //搜索
-        updateAttribute(document,titles,"cesium-geocoder-input","placeholder");
-
-        //模式切换鼠标滑过提示
-        updateAttributeByEvent(document,titles,"cesium-sceneModePicker-button3D","title","onmouseover");
-        updateAttribute(document,titles,"cesium-sceneModePicker-dropDown-icon","title");
-
-        //初始视图
-        updateAttribute(document,titles,"cesium-home-button","title");
-
-        //帮助
-        updateAttribute(document,titles,"cesium-navigation-help-button","title");
-    }
-
-    /**
-     * 图层选择汉化
-     */
-    function loadBaseLayerPickerOfToolbar()
-    {
-        //图层选择需要汉化对象
-        var layers={
+            "Navigation Instructions":"帮助",
+            //图层
             "Imagery":"影像",
             "Cesium ion":"推荐",
             "Other":"其他",
@@ -110,8 +73,90 @@ var CesiumZh=(function (){
             "Reminiscent of hand drawn maps, Stamen watercolor maps apply raster effect area washes and organic edges over a paper texture to add warm pop to any map.\nhttp://maps.stamen.com":"让人联想到手绘地图，雄蕊水彩地图在纸张纹理上应用栅格效果区域清洗和有机边缘，为任何地图添加温暖的流行。\nhttp://maps.stamen.com",
             "A high contrast black and white map.\nhttp://maps.stamen.com":"高对比度的黑白地图。\nhttp://maps.stamen.com",
             "WGS84 standard ellipsoid, also known as EPSG:4326":"WGS84标准椭球，又称EPSG：4326",
-            "High-resolution global terrain tileset curated from several datasources and hosted by Cesium ion":"高分辨率全球地形图块集由几个数据源组成，由Cesium ion托管"
+            "High-resolution global terrain tileset curated from several datasources and hosted by Cesium ion":"高分辨率全球地形图块集由几个数据源组成，由Cesium ion托管",
+            //帮助
+            "Mouse":"鼠标",
+            "Touch":"手势",
+            "Pan view":"平移视图",
+            "Left click + drag":"左键+拖拽",
+            "Zoom view":"缩放视图",
+            "Right click + drag, or":"右键+拖拽，或者",
+            "Mouse wheel scroll":"鼠标滚动滚动",
+            "Rotate view":"旋转视图",
+            "Middle click + drag, or":"中间滚动按下拖拽，或者",
+            "CTRL + Left/Right click + drag":"CTRL +左/右 单击+拖拽",
+            "One finger drag":"单指拽",
+            "Two finger pinch":"两指捏",
+            "Tilt view":"倾斜视图",
+            "Two finger drag, same direction":"双指拖动，方向相同",
+            "Two finger drag, opposite direction":"双指拖动，方向相反",
+            //全屏
+            "Full screen":"全屏",
+            "Exit full screen":"退出全屏",
+            //动画控件
+            "Today (real-time)":"今天（实际时间）",
+            "Play Reverse":"逆时针播放",
+            "Play Forward":"顺时针播放",
+            "Pause":"暂停",
+            "cesium_description":"此应用程序使用Cesium的默认令牌访问。 在进行任何Cesium API调用之前，请使用您的帐户为Cesium.Ion.defaultAccessToken分配访问令牌。 您可以注册免费的Cesium帐户",
+            "Data attribution":"数据归属",
+            //月份
+            "Jan":"1月",
+            "Feb":"2月",
+            "Mar":"3月",
+            "Apr":"4月",
+            "May":"5月",
+            "Jun":"6月",
+            "Jul":"7月",
+            "Aug":"8月",
+            "Sep":"9月",
+            "Oct":"10月",
+            "Nov":"11月",
+            "Dec":"12月",
         }
+    }
+
+    /**
+     * 工具条汉化
+     */
+    function loadToolbar()
+    {
+        //工具条鼠标悬浮提示汉化
+        loadToolBarTitle();
+        //图层选择汉化
+        loadBaseLayerPickerOfToolbar();
+        //帮助面板汉化
+        loadToolBarHelp();
+    }
+
+    /**
+     * 工具条鼠标悬浮提示汉化
+     */
+    function loadToolBarTitle()
+    {
+        var titles=getChineseMaps();
+
+        //搜索
+        updateAttribute(document,titles,"cesium-geocoder-input","placeholder");
+
+        //模式切换鼠标滑过提示
+        updateAttributeByEvent(document,titles,"cesium-sceneModePicker-button3D","title","onmouseover");
+        updateAttribute(document,titles,"cesium-sceneModePicker-dropDown-icon","title");
+
+        //初始视图
+        updateAttribute(document,titles,"cesium-home-button","title");
+
+        //帮助
+        updateAttribute(document,titles,"cesium-navigation-help-button","title");
+    }
+
+    /**
+     * 图层选择汉化
+     */
+    function loadBaseLayerPickerOfToolbar()
+    {
+        //图层选择需要汉化对象
+        var layers=getChineseMaps();
         
         //获取容器
         var dropDownContainer = document.getElementsByClassName("cesium-baseLayerPicker-dropDown");
@@ -156,23 +201,7 @@ var CesiumZh=(function (){
      */
     function loadToolBarHelp()
     {
-        var texts={
-            "Mouse":"鼠标",
-            "Touch":"手势",
-            "Pan view":"平移视图",
-            "Left click + drag":"左键+拖拽",
-            "Zoom view":"缩放视图",
-            "Right click + drag, or":"右键+拖拽，或者",
-            "Mouse wheel scroll":"鼠标滚动滚动",
-            "Rotate view":"旋转视图",
-            "Middle click + drag, or":"中间滚动按下拖拽，或者",
-            "CTRL + Left/Right click + drag":"CTRL +左/右 单击+拖拽",
-            "One finger drag":"单指拽",
-            "Two finger pinch":"两指捏",
-            "Tilt view":"倾斜视图",
-            "Two finger drag, same direction":"双指拖动，方向相同",
-            "Two finger drag, opposite direction":"双指拖动，方向相反",
-        }
+        var texts=getChineseMaps();
 
         //鼠标
         var mouseButton = document.getElementsByClassName("cesium-navigation-button-left");
@@ -203,10 +232,7 @@ var CesiumZh=(function (){
      */
     function loadFullExtent()
     {
-        var titles={
-            "Full screen":"全屏",
-            "Exit full screen":"退出全屏"
-        }
+        var titles=getChineseMaps();
 
         updateAttributeByEvent(document,titles,"cesium-fullscreenButton","title","onmouseover");
     }
@@ -216,29 +242,7 @@ var CesiumZh=(function (){
      */
     function loadFlyController()
     {
-        var titles = {
-            "Today (real-time)":"今天（实际时间）",
-            "Play Reverse":"逆时针播放",
-            "Play Forward":"顺时针播放",
-            "Pause":"暂停",
-            "cesium_description":"此应用程序使用Cesium的默认令牌访问。 在进行任何Cesium API调用之前，请使用您的帐户为Cesium.Ion.defaultAccessToken分配访问令牌。 您可以注册免费的Cesium帐户",
-            "Data attribution":"数据归属"
-        }
-
-        var dateMap={
-            "Jan":"1月",
-            "Feb":"2月",
-            "Mar":"3月",
-            "Apr":"4月",
-            "May":"5月",
-            "Jun":"6月",
-            "Jul":"7月",
-            "Aug":"8月",
-            "Sep":"9月",
-            "Oct":"10月",
-            "Nov":"11月",
-            "Dec":"12月",
-        }
+        var titles = getChineseMaps();
         var parentContainer = document.getElementsByClassName("cesium-viewer-animationContainer");
         if(parentContainer.length>0)
         {
@@ -252,7 +256,7 @@ var CesiumZh=(function (){
                 var texts = text.split(" ");
                 if(texts.length == 3)
                 {
-                    datedes[i].children[0].innerHTML = texts[2]+"年"+dateMap[texts[0]]+texts[1]+"日";
+                    datedes[i].children[0].innerHTML = texts[2]+"年"+titles[texts[0]]+texts[1]+"日";
                 }
                 else if(texts.length == 2)
                 {
@@ -297,7 +301,7 @@ var CesiumZh=(function (){
                     var texts = e.target.innerHTML.split(" ");
                     if(texts.length>3)
                     {
-                        var resultText = texts[2]+"年"+dateMap[texts[0]]+texts[1]+"日 "+texts[3]+"";
+                        var resultText = texts[2]+"年"+titles[texts[0]]+texts[1]+"日 "+texts[3]+"";
                         e.target.innerHTML = resultText;
                     }
                 }
@@ -309,7 +313,7 @@ var CesiumZh=(function (){
                 var texts = labels[i].innerHTML.split(" ");
                 if(texts.length>3)
                 {
-                    var resultText = texts[2]+"年"+dateMap[texts[0]]+texts[1]+"日 "+texts[3]+"";
+                    var resultText = texts[2]+"年"+titles[texts[0]]+texts[1]+"日 "+texts[3]+"";
                     labels[i].innerHTML = resultText;
                 }
             }
