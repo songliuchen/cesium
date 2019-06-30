@@ -24,6 +24,7 @@ cesium demo，cesium 研究过程中资料整理，包括：
 - [3DTiles：加载小区数据](http://129.211.11.95/cesium/3dtiles/load_official.html)  
 - [3DTiles：加载点云数据](http://129.211.11.95/cesium/3dtiles/load_point_cloud.html)  
 - [工具：爬取网络3DTiles数据](http://129.211.11.95/cesium/tools/3dtiles_download.py)  
+- [插件：汉化](http://129.211.11.95/cesium/plugins/cesium_zh.html)  
 
 ##  cesium 工具整理
 - 在线3DTiles数据爬取工具  
