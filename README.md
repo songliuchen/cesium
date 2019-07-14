@@ -5,6 +5,8 @@ cesium demo，cesium 研究过程中资料整理，包括：
   
 ## Cesium 脑图（完善中）
 [脑图](http://naotu.baidu.com/file/1bb0734b72b6f7efb888a93a2cb642ce)  
+[3DTiles数据结构脑图](http://naotu.baidu.com/file/ef3c88cd75ebad82f4f4bd552658e9b3)
+
 ## Cesium DEMO集合（完善中）
 演示效果直接下载代码后账访问index.html 文件即可，ip方式访问可通过VS Code+Live Server 插件或通过HBuilder 运行 即可预览效果  
   
@@ -44,7 +46,13 @@ cesium demo，cesium 研究过程中资料整理，包括：
     3）、缺少增量爬取功能，出现异常不能从异常文件重新爬取，整个需要重头开始
     4）、缺少日志本地存储功能
  ```
-
+ -  解析3dTiles 切片文件中的b3dm文件，提取gltf模型  
+ ```
+1、使用python3.7版本编写  
+2、通过指定3dtiles 目录解析目录下所有b3dm文件中的gltf 模型
+3、解析出来的模型文件和b3dm文件保存在同一目录中
+ ```
+ 
 ## cesium 插件整理
 -  汉化插件，针对界面可视化部分进行汉化  
  ```

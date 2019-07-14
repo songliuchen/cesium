@@ -42,7 +42,7 @@ url="https://assets.cesium.com/6074/"
 # TODO song 解决需要token验证问题,可添加需要的头信息
 header={
     "User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0",
-    "Accept":"*/*;access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyNjc5OGJkYy0yNGE2LTQ3NmEtODBhOC00YTBlZmU3OTk1Y2QiLCJpZCI6MjU5LCJhc3NldHMiOnsiNjA3NCI6eyJ0eXBlIjoiM0RUSUxFUyJ9fSwic3JjIjoiZjlmNDY4ODctNTA1MS00OWFjLWJlM2UtM2QxNTYwODYyMWQ0IiwiaWF0IjoxNTYxNTI1MTE3LCJleHAiOjE1NjE1Mjg3MTd9._DNl37wGI-74_D23WJG9ViftC2XPgdmcBghjNpLnDdc"
+    "Accept":"*/*;access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjOGI2ZTgzNi05ODkzLTRiYTktYmU2Ny1hYTZlZjU4ODg3ZTgiLCJpZCI6MjU5LCJhc3NldHMiOnsiNjA3NCI6eyJ0eXBlIjoiM0RUSUxFUyJ9fSwic3JjIjoiZTRiNzA2OTctYjE1Yi00NDYwLWIzY2MtYmY2NjZhYzc5ZTAwIiwiaWF0IjoxNTYzMDg4MTM3LCJleHAiOjE1NjMwOTE3Mzd9.Tk8nWyaIkcwzk1rfhIslVjEdJw76UkFRK40V5j7Bnko"
 }
 #存储节点解析路径
 _parentParsePath=""
