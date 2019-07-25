@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cesiumjs.org/releases/1.58/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://cesiumjs.org/releases/1.58/Build/Cesium/Cesium.js"></script>
+    <style>
+            html,body
+            {
+                width:100%;
+                height:100%;
+                padding:0;
+                margin:0
+            }
+        </style>
+</head>
+<body>
+    <div id = "cesium_container" style="width:100%;height:100%;">
+    </div>
+    <script>
+        var entity = undefined;
+        function viewerflyToLonLat(lon,lat,alt) {
+            if(entity)
+                mViewer.entities.remove(entity);
+            entity = new Cesium.Entity({
+                id : 'flyTmp',
+                position : Cesium.Cartesian3.fromDegrees(lon, lat),
+                point : {
+                    pixelSize : 10,
+                    color : Cesium.Color.WHITE.withAlpha(0.9),
+                    outlineColor : Cesium.Color.WHITE.withAlpha(0.9),
+                    outlineWidth : 1
+                }
+            });
+            mViewer.entities.add(entity);
+            mViewer.flyTo(entity, {
+                offset : {
+                    heading : Cesium.Math.toRadians(0.0),
+                    pitch : Cesium.Math.toRadians(-25),
+                    range : alt
+                }
+            });
+        }
+        //cesium_container 对应容器div 的ID
+        var mViewer = new Cesium.Viewer('cesium_container',{
+            animation: false,        //是否创建动画小器件，左下角仪表
+            timeline: false,         //是否显示时间线控件
+            geocoder: true,         //是否显示地名查找控件
+            baseLayerPicker: true,  //是否显示图层选择控件
+            shadows: false,// 阴影是否被太阳投射
+            shouldAnimate:true,
+            fullscreenButton:false
+        });
+        mViewer.cesiumWidget.creditContainer.style.display = "none";
+        // Example 1. USGS shaded relief tiles (KVP)
+        var shadedRelief1 = new Cesium.ArcGisMapServerImageryProvider({
+            url : 'http://xczxgis.etkqq.gov.cn:6080/arcgis/rest/services/DOM_EQQ_08_17_84/MapServer',
+            proxy: new Cesium.DefaultProxy('/proxy/'),
+            layer : 'DOM_EQQ_08_17_84',
+            format : 'image/png',
+            tileMatrixSetID : 'default028mm',
+            maximumLevel: 19,
+            style : 'default',
+        });
+        mViewer.imageryLayers.addImageryProvider(shadedRelief1);
+
+        var provider = new Cesium.ArcGisMapServerImageryProvider({
+            url: 'http://xczxgis.etkqq.gov.cn:6080/arcgis/rest/services/NMH_EQQ_2019_20/MapServer', // 服务地址
+            proxy: new Cesium.DefaultProxy('/proxy/')
+        });
+        mViewer.imageryLayers.addImageryProvider(provider);
+        //定位到地图服务
+        viewerflyToLonLat(107.18803850137205,38.23269182159423,1);
+    </script>
+</body>
+</html>

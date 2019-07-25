@@ -19,10 +19,9 @@ def parseB3DMToGltf(rootDir):
                 magic = magic.decode("utf-8")
                 #只有b3dm格式才解析
                 if(magic =="b3dm"):
-                    #获取版本
+                    #version 读取version
                     version = struct.unpack('I', f.read(4))
-                    print(version[0])
-                    #获取总字节数
+                    #byteLength 总大小
                     byteLength = struct.unpack('I', f.read(4))
                     #获取featureTableJSONByteLength
                     featureTableJSONByteLength = struct.unpack('I', f.read(4))
@@ -40,6 +39,53 @@ def parseB3DMToGltf(rootDir):
                     objectFile = open(savePath, 'wb')#以读写模式打开
                     objectFile.write(gltfBytes)
                     objectFile.close()
+                    f.close()
+            elif file_name.endswith(".pnts"):
+                f = open(file_name,'rb')
+                # 获取标识
+                magic = f.read(4)
+                magic = magic.decode("utf-8")
+                #只有b3dm格式才解析
+                if(magic =="pnts"):
+                    #version 读取version
+                    version = struct.unpack('I', f.read(4))
+                    #byteLength 总大小
+                    byteLength = struct.unpack('I', f.read(4))
+                    #获取featureTableJSONByteLength
+                    featureTableJSONByteLength = struct.unpack('I', f.read(4))
+                    #获取featureTableBinaryByteLength
+                    featureTableBinaryByteLength = struct.unpack('I', f.read(4))
+                    #获取batchTableJSONByteLength
+                    batchTableJSONByteLength = struct.unpack('I', f.read(4))
+                    #获取batchTableJSONByteLength
+                    batchTableBinaryByteLength = struct.unpack('I', f.read(4))
+
+                    #读取body
+                    featureJsonString = f.read(featureTableJSONByteLength[0])
+                    print(featureJsonString.decode("utf-8"))
+                    # f.read(8- featureTableJSONByteLength[0]%8)
+                    # featureJson = f.read(featureTableBinaryByteLength[0] - (8- featureTableJSONByteLength[0]))
+                    featureJson = f.read(featureTableBinaryByteLength[0])
+                    savePath = file_name.replace(".pnts","_feature.json")
+                    objectFile = open(savePath, 'w')#以读写模式打开
+                    objectFile.write(featureJson.decode("utf-8"))
+                    objectFile.close()
+
+                    batchJsonString = f.read(batchTableJSONByteLength)
+                    print(batchJsonString.decode("utf-8"))
+                    batchTableJson = f.read(featureTableBinaryByteLength[0])
+                    savePath = file_name.replace(".pnts","_batch.json")
+                    objectFile = open(savePath, 'w')#以读写模式打开
+                    objectFile.write(batchTableJson.decode("utf-8"))
+                    objectFile.close()
+                    # 解析gltf 文件内容，根据前面获取的其他其他数据长度判断解析gltf模型文件开始位置
+                    # gltfStart = 28 + featureTableJSONByteLength[0] + featureTableBinaryByteLength[0] + batchTableJSONByteLength[0] +  batchTableBinaryByteLength[0]
+                    # f.seek(gltfStart)
+                    # gltfBytes = f.read()
+                    # savePath = file_name.replace(".b3dm",".gltf")
+                    # objectFile = open(savePath, 'wb')#以读写模式打开
+                    # objectFile.write(gltfBytes)
+                    # objectFile.close()
                     f.close()
 
 parseB3DMToGltf("./data/")
