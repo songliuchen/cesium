@@ -23,140 +23,136 @@
     <div id="cesium_container" style="width:100%;height:100%;">
     </div>
     <script>
-        var entity = undefined;
-        function viewerflyToLonLat(lon, lat, alt) {
-            if (entity)
-                mViewer.entities.remove(entity);
-            entity = new Cesium.Entity({
-                id: 'flyTmp',
-                position: Cesium.Cartesian3.fromDegrees(lon, lat),
-                point: {
-                    pixelSize: 0,
-                    // color : Cesium.Color.WHITE.withAlpha(0.9),
-                    // outlineColor : Cesium.Color.WHITE.withAlpha(0.9),
-                    outlineWidth: 0
-                }
+        init();
+        /**
+         * 初始化容器
+         */
+        function init()
+        {
+            initCesium();
+
+            initWMTSServer();
+
+            init3DTiles();
+
+            initBillboard();
+        }
+
+        var mViewer;
+        /**
+         * 初始化容器
+         */
+        function initCesium()
+        {
+            //容器初始化，cesium_container 对应容器div 的ID
+            mViewer = new Cesium.Viewer('cesium_container', {
+                animation: false,        //是否创建动画小器件，左下角仪表
+                timeline: false,         //是否显示时间线控件
+                geocoder: true,         //是否显示地名查找控件
+                baseLayerPicker: true,  //是否显示图层选择控件
+                shadows: false,// 阴影是否被太阳投射
+                shouldAnimate: true,
+                fullscreenButton: false
             });
-            mViewer.entities.add(entity);
-            mViewer.flyTo(entity, {
-                offset: {
-                    heading: Cesium.Math.toRadians(0.0),
-                    pitch: Cesium.Math.toRadians(-25),
-                    range: alt
-                }
+            mViewer.cesiumWidget.creditContainer.style.display = "none";
+        }
+
+        /**
+         * 初始化ArcGIS Server WMTS服务
+         */
+        function initWMTSServer()
+        {
+            // 加载影像地图
+            var arcgisWMTSProvider = new Cesium.ArcGisMapServerImageryProvider({
+                url: 'http://xczxgis.etkqq.gov.cn:6080/arcgis/rest/services/DOM_EQQ_08_18_20/MapServer',
+            });
+            arcgisWMTSProvider.base_requestImage = arcgisWMTSProvider.requestImage;
+            //自定义瓦片请求方法
+            arcgisWMTSProvider.requestImage= function(x,y,level,request){
+                //cesium 解析层级问题，必须加1，只针对当前arcgis server 地图数据
+                level+=1;
+                var imagePromise = this.base_requestImage(x, y, level);
+                return imagePromise;
+            };
+            mViewer.imageryLayers.addImageryProvider(arcgisWMTSProvider);
+        }
+
+        /**
+         * 初始化倾斜摄影数据
+         */
+        function init3DTiles()
+        {
+            //添加倾斜摄影数据
+            // mViewer.terrainProvider = Cesium.createWorldTerrain();
+            mViewer.scene.globe.depthTestAgainstTerrain = true;
+            var tileset = mViewer.scene.primitives.add(new Cesium.Cesium3DTileset({ url: "../data/3DTiles/tileset.json" }));
+            tileset.readyPromise.then(function(tileset)
+            {
+                mViewer.zoomTo(tileset, new Cesium.HeadingPitchRange(0.0, -0.5, tileset.boundingSphere.radius * 2.0));
+
+                //调整模型高度，一般倾斜摄影数据添加到cesium，高度都需要微调
+                //可根据数据添加到cesium后，根据效果微调
+                // var heightOffset = -25;
+                var heightOffset = -1330;
+
+                var cartographic = Cesium.Cartographic.fromCartesian(tileset.boundingSphere.center);
+                var surface = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
+                var offset = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, heightOffset);
+                var translation = Cesium.Cartesian3.subtract(offset, surface, new Cesium.Cartesian3());
+                tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
             });
         }
-        //cesium_container 对应容器div 的ID
-        var mViewer = new Cesium.Viewer('cesium_container', {
-            animation: false,        //是否创建动画小器件，左下角仪表
-            timeline: false,         //是否显示时间线控件
-            geocoder: true,         //是否显示地名查找控件
-            baseLayerPicker: true,  //是否显示图层选择控件
-            shadows: false,// 阴影是否被太阳投射
-            shouldAnimate: true,
-            fullscreenButton: false
-        });
-        mViewer.cesiumWidget.creditContainer.style.display = "none";
-        // Example 1. USGS shaded relief tiles (KVP)
-        var shadedRelief1 = new Cesium.ArcGisMapServerImageryProvider({
-            url: 'http://xczxgis.etkqq.gov.cn:6080/arcgis/rest/services/DOM_EQQ_08_17_84/MapServer',
-            proxy: new Cesium.DefaultProxy('/proxy/'),
-            layer: 'DOM_EQQ_08_17_84',
-            format: 'image/png',
-            tileMatrixSetID: 'default028mm',
-            maximumLevel: 19,
-            style: 'default',
-        });
-        mViewer.imageryLayers.addImageryProvider(shadedRelief1);
 
-        var provider = new Cesium.ArcGisMapServerImageryProvider({
-            url: 'http://xczxgis.etkqq.gov.cn:6080/arcgis/rest/services/NMH_EQQ_2019_20/MapServer', // 服务地址
-            proxy: new Cesium.DefaultProxy('/proxy/')
-        });
-        mViewer.imageryLayers.addImageryProvider(provider);
-        //定位到地图服务
-        viewerflyToLonLat(107.18803850137205,38.23269182159423, 1);
-
-        //     mViewer.entities.add({
-        //         position : Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883),
-        //         billboard : {
-        //             image : '../assets/imgs/home.png', // default: undefined
-        //             pixelOffset : new Cesium.Cartesian2(0, 0), // default: (0, 0)
-        //             eyeOffset : new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
-        //             // horizontalOrigin : Cesium.HorizontalOrigin.CENTER, // default
-        //             verticalOrigin : Cesium.VerticalOrigin.CENTER, // default: CENTER
-        //             scale : 1.0, // default: 1.0
-        //             // color : Cesium.Color.LIME, // default: WHITE
-        //             rotation : 0, // default: 0.0
-        //             alignedAxis : Cesium.Cartesian3.ZERO, // default
-        //             width : 25, // default: undefined
-        //             height : 25 // default: undefined
-        //         },
-        //         label : {
-        //             text : '苏亚拉乌拉',
-        //             font : '16px',
-        //             fillColor : Cesium.Color.SKYBLUE,
-        //             pixelOffset : new Cesium.Cartesian2(0.0, 20),
-        //         }
-        // });
-
-        // 创建XMLHTTPRequest对象
-        function createXMLHTTPRequest() {
+        /**
+         * 初始化立体广告牌数据
+         */
+        function initBillboard()
+        {
             var xmlhttp;
             if (window.ActiveXObject)//②如果当前浏览器为IE
-            {
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
             else if (window.XMLHttpRequest)//③如果是其他浏览器
-            {
                 xmlhttp = new XMLHttpRequest();
-            }
-            return xmlhttp;
-        }
-
-        var xmlhttp;
-        function getPointJsonInfo() {
-            xmlhttp = createXMLHTTPRequest();
-            if (xmlhttp) {
+            if (xmlhttp)
+            {
                 xmlhttp.open("get", "../assets/cesium/point.json", true);
-                xmlhttp.onreadystatechange = parsePointJsonInfo;
+                xmlhttp.onreadystatechange = function()
+                {
+                    if (xmlhttp.readyState == 4)
+                    {
+                        var info = xmlhttp.responseText;
+                        json = JSON.parse(info);
+                        var message = "";
+                        var dealerlocation = "";
+                        var salesphone = "";
+                        var iconSize = 40;
+                        var offset= -40;
+                        for (var i = 0; i < json.length; i++)
+                        {
+                            mViewer.entities.add({
+                                position : Cesium.Cartesian3.fromDegrees(json[i].S_X, json[i].S_Y),
+                                billboard : {
+                                    image : json[i].S_HU == 1?'../assets/imgs/1.png':'../assets/imgs/2.png', // default: undefined
+                                    pixelOffset : new Cesium.Cartesian3(0, offset,0), // default: (0, 0)
+                                    eyeOffset : new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
+                                    verticalOrigin : Cesium.VerticalOrigin.CENTER, // default: CENTER
+                                    alignedAxis : Cesium.Cartesian3.ZERO, // default
+                                    width : iconSize, // default: undefined
+                                    height : iconSize // default: undefined
+                                },
+                                label : {
+                                    text : json[i].S_NAME,
+                                    font : '16px 宋体',
+                                    fillColor : Cesium.Color.WHITE,
+                                    pixelOffset : new Cesium.Cartesian3(0.0,offset+iconSize*0.7,0),
+                                }
+                        });
+                        }
+                    }
+                };
                 xmlhttp.send(null);
             }
         }
-
-        function parsePointJsonInfo() {
-            if (xmlhttp.readyState == 4) {
-                var info = xmlhttp.responseText;
-                json = JSON.parse(info);
-                var message = "";
-                var dealerlocation = "";
-                var salesphone = "";
-                var iconSize = 50;
-                for (var i = 0; i < json.length; i++)
-                {
-                    mViewer.entities.add({
-                        position : Cesium.Cartesian3.fromDegrees(json[i].S_X, json[i].S_Y),
-                        billboard : {
-                            image : json[i].S_HU == 1?'../assets/imgs/1.png':'../assets/imgs/2.png', // default: undefined
-                            pixelOffset : new Cesium.Cartesian2(0, 0), // default: (0, 0)
-                            eyeOffset : new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
-                            verticalOrigin : Cesium.VerticalOrigin.CENTER, // default: CENTER
-                            alignedAxis : Cesium.Cartesian3.ZERO, // default
-                            width : iconSize, // default: undefined
-                            height : iconSize // default: undefined
-                        },
-                        label : {
-                            text : json[i].S_NAME,
-                            font : '20px 宋体',
-                            fillColor : Cesium.Color.WHITE,
-                            pixelOffset : new Cesium.Cartesian2(0.0, iconSize*0.7),
-                        }
-                });
-                }
-            }
-        }
-
-        getPointJsonInfo();
     </script>
 </body>
 
