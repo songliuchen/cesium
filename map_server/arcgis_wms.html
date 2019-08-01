@@ -31,6 +31,8 @@
         {
             initCesium();
 
+            initDEM();
+
             initWMTSServer();
 
             init3DTiles();
@@ -55,6 +57,7 @@
                 fullscreenButton: false
             });
             mViewer.cesiumWidget.creditContainer.style.display = "none";
+            mViewer.scene.globe.depthTestAgainstTerrain = true;
         }
 
         /**
@@ -83,8 +86,6 @@
         function init3DTiles()
         {
             //添加倾斜摄影数据
-            // mViewer.terrainProvider = Cesium.createWorldTerrain();
-            mViewer.scene.globe.depthTestAgainstTerrain = true;
             var tileset = mViewer.scene.primitives.add(new Cesium.Cesium3DTileset({ url: "../data/3DTiles/tileset.json" }));
             tileset.readyPromise.then(function(tileset)
             {
@@ -92,9 +93,7 @@
 
                 //调整模型高度，一般倾斜摄影数据添加到cesium，高度都需要微调
                 //可根据数据添加到cesium后，根据效果微调
-                // var heightOffset = -25;
-                var heightOffset = -1330;
-
+                var heightOffset = 10;
                 var cartographic = Cesium.Cartographic.fromCartesian(tileset.boundingSphere.center);
                 var surface = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
                 var offset = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, heightOffset);
@@ -122,36 +121,43 @@
                     {
                         var info = xmlhttp.responseText;
                         json = JSON.parse(info);
-                        var message = "";
-                        var dealerlocation = "";
-                        var salesphone = "";
                         var iconSize = 40;
-                        var offset= -40;
                         for (var i = 0; i < json.length; i++)
                         {
                             mViewer.entities.add({
-                                position : Cesium.Cartesian3.fromDegrees(json[i].S_X, json[i].S_Y),
+                                position : Cesium.Cartesian3.fromDegrees(json[i].S_X,json[i].S_Y,1350),
                                 billboard : {
-                                    image : json[i].S_HU == 1?'../assets/imgs/1.png':'../assets/imgs/2.png', // default: undefined
-                                    pixelOffset : new Cesium.Cartesian3(0, offset,0), // default: (0, 0)
-                                    eyeOffset : new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
-                                    verticalOrigin : Cesium.VerticalOrigin.CENTER, // default: CENTER
-                                    alignedAxis : Cesium.Cartesian3.ZERO, // default
-                                    width : iconSize, // default: undefined
-                                    height : iconSize // default: undefined
+                                    image : json[i].S_HU == 1?'../assets/imgs/1.png':'../assets/imgs/2.png',
+                                    scale:0.8,
+                                    verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+                                    pixelOffset : new Cesium.Cartesian3(0, -iconSize*0.5),
+                                    width : iconSize, 
+                                    height : iconSize
                                 },
                                 label : {
                                     text : json[i].S_NAME,
                                     font : '16px 宋体',
                                     fillColor : Cesium.Color.WHITE,
-                                    pixelOffset : new Cesium.Cartesian3(0.0,offset+iconSize*0.7,0),
+                                    verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
                                 }
-                        });
+                            });
                         }
                     }
                 };
                 xmlhttp.send(null);
             }
+        }
+
+        /**
+         * 初始话DEM
+         */
+        function initDEM()
+        {
+            var terrainProvider = new Cesium.CesiumTerrainProvider({
+                url: "../data/dem"
+            });
+
+            mViewer.terrainProvider = terrainProvider;
         }
     </script>
 </body>
