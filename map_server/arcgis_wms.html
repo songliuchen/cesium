@@ -125,12 +125,14 @@
                         for (var i = 0; i < json.length; i++)
                         {
                             mViewer.entities.add({
+                                //第三个参数1350 为地面高度根据高程调整即可
                                 position : Cesium.Cartesian3.fromDegrees(json[i].S_X,json[i].S_Y,1350),
                                 billboard : {
                                     image : json[i].S_HU == 1?'../assets/imgs/1.png':'../assets/imgs/2.png',
                                     scale:0.8,
                                     verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
                                     pixelOffset : new Cesium.Cartesian3(0, -iconSize*0.5),
+                                    heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
                                     width : iconSize, 
                                     height : iconSize
                                 },
@@ -139,6 +141,7 @@
                                     font : '16px 宋体',
                                     fillColor : Cesium.Color.WHITE,
                                     verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+                                    heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
                                 }
                             });
                         }
